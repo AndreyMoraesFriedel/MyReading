@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
+
 
 namespace MyReading.API.Data
 {
@@ -8,14 +8,17 @@ namespace MyReading.API.Data
     {
         public MyReadingContext CreateDbContext(string[] args)
         {
-            var configuration = new ConfigurationBuilder()
+            // Cria uma configuração para obter a string de conexão
+            IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var optionsBuilder = new DbContextOptionsBuilder<MyReadingContext>();
+            // Obtém a string de conexão do arquivo appsettings.json
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
+            // Configura as opções do DbContext
+            var optionsBuilder = new DbContextOptionsBuilder<MyReadingContext>();
             optionsBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21)));
 
             return new MyReadingContext(optionsBuilder.Options);
