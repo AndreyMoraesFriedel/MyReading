@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyReading.API", "MyReading.API\MyReading.API.csproj", "{1CF78D40-68FA-409A-9C4B-D5B175B1E3BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyReading.API", "MyReading.API.csproj", "{14E726DF-4CB1-40EC-90BC-925564449AE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1CF78D40-68FA-409A-9C4B-D5B175B1E3BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1CF78D40-68FA-409A-9C4B-D5B175B1E3BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1CF78D40-68FA-409A-9C4B-D5B175B1E3BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1CF78D40-68FA-409A-9C4B-D5B175B1E3BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14E726DF-4CB1-40EC-90BC-925564449AE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14E726DF-4CB1-40EC-90BC-925564449AE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14E726DF-4CB1-40EC-90BC-925564449AE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14E726DF-4CB1-40EC-90BC-925564449AE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {512FE204-E739-44C1-AB7B-B27306C40943}
+		SolutionGuid = {6C477965-8C42-4275-83EF-782B8F4165F4}
 	EndGlobalSection
 EndGlobal

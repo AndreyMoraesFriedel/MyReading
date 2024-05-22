@@ -1,47 +1,76 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyReading.API.Models;
+using MyReading.API.Infrastructure.Repository;
+using MyReading.API.Model;
+using MyReading.API.ViewModel;
 
 namespace MyReading.API.Controllers
 {
-    // Marca esta classe como um controlador de API
     [ApiController]
-    // Define a rota base para este controlador
-    [Route("api/[controller]")]
+    [Route("api/v1/book")]
     public class BookController : ControllerBase
     {
-        // Lista estática de livros para simular um banco de dados
-        private static List<Book> books = new List<Book>
-        {
-            new Book { Id = 1, Title = "Book One", Author = "Author One", Pages = 300, DateRead = DateTime.Now.AddDays(-10) },
-            new Book { Id = 2, Title = "Book Two", Author = "Author Two", Pages = 250, DateRead = DateTime.Now.AddDays(-5) }
-        };
+        private readonly IBookRepository _bookRepository;
 
-        // Endpoint GET para obter todos os livros
-        [HttpGet]
-        public ActionResult<IEnumerable<Book>> GetBooks()
+        public BookController(IBookRepository bookRepository)
         {
-            return books;
+            _bookRepository = bookRepository;
         }
 
-        // Endpoint GET para obter um livro por ID
-        [HttpGet("{id}")]
-        public ActionResult<Book> GetBook(int id)
+        [HttpPost]
+        public IActionResult Add(BookViewModel bookView)
         {
-            var book = books.FirstOrDefault(b => b.Id == id);
+            var book = new Book(bookView.Id, bookView.Title, bookView.Author, bookView.Pages, bookView.DateRead);
+            _bookRepository.Add(book);
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var books = _bookRepository.GetAll();
+            return Ok(books);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var book = _bookRepository.GetById(id);
             if (book == null)
             {
                 return NotFound();
             }
-            return book;
+            return Ok(book);
         }
 
-        // Endpoint POST para criar um novo livro
-        [HttpPost]
-        public ActionResult<Book> CreateBook(Book book)
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, BookViewModel bookView)
         {
-            book.Id = books.Max(b => b.Id) + 1;
-            books.Add(book);
-            return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
+            var existingBook = _bookRepository.GetById(id);
+            if (existingBook == null)
+            {
+                return NotFound();
+            }
+
+            existingBook.Title = bookView.Title;
+            existingBook.Author = bookView.Author;
+            existingBook.Pages = bookView.Pages;
+            existingBook.DateRead = bookView.DateRead;
+
+            _bookRepository.Update(existingBook);
+            return Ok(existingBook);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var book = _bookRepository.GetById(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            _bookRepository.Delete(id);
+            return Ok();
         }
     }
 }
