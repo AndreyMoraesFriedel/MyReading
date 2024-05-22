@@ -6,7 +6,7 @@ namespace MyReading.API.Infrastructure.Repository
     {
         void Add(Book book);
         List<Book> GetAll();
-        Book GetById(int id);
+        Book? GetById(int id);
         void Update(Book book);
         void Delete(int id);
     }

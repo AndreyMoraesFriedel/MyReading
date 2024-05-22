@@ -17,11 +17,26 @@ namespace MyReading.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(BookViewModel bookView)
+        public IActionResult Add([FromForm] BookViewModel bookView)
         {
-            var book = new Book(bookView.Id, bookView.Title, bookView.Author, bookView.Pages, bookView.DateRead);
+            var filePath = Path.Combine("Storage", bookView.Capa.FileName);
+
+            using Stream fileStream = new FileStream(filePath, FileMode.Create);
+            bookView.Capa.CopyTo(fileStream);
+
+            var book = new Book(bookView.Id, bookView.Title, bookView.Author, filePath, bookView.Pages, bookView.DateRead);
             _bookRepository.Add(book);
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("{id}/download")]
+        public IActionResult DownloadCapa(int id)
+        { 
+            var book = _bookRepository.GetById(id);
+            var dataBytes = System.IO.File.ReadAllBytes(book.Capa);
+
+            return File(dataBytes, "image/png");
         }
 
         [HttpGet]
@@ -43,7 +58,7 @@ namespace MyReading.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, BookViewModel bookView)
+        public IActionResult Update(int id, [FromForm] BookViewModel bookView)
         {
             var existingBook = _bookRepository.GetById(id);
             if (existingBook == null)
@@ -55,6 +70,21 @@ namespace MyReading.API.Controllers
             existingBook.Author = bookView.Author;
             existingBook.Pages = bookView.Pages;
             existingBook.DateRead = bookView.DateRead;
+
+            if (bookView.Capa != null)
+            {
+                var filePath = Path.Combine("Storage", bookView.Capa.FileName);
+
+                // Delete old file if exists
+                if (System.IO.File.Exists(existingBook.Capa))
+                {
+                    System.IO.File.Delete(existingBook.Capa);
+                }
+
+                using Stream fileStream = new FileStream(filePath, FileMode.Create);
+                bookView.Capa.CopyTo(fileStream);
+                existingBook.Capa = filePath;
+            }
 
             _bookRepository.Update(existingBook);
             return Ok(existingBook);

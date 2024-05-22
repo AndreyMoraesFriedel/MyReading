@@ -10,20 +10,24 @@ namespace MyReading.API.Model
         public int Id { get; set; }
 
         [Required]
-        public string Title { get; set; }  // setter público
+        public string Title { get; set; }
 
         [Required]
-        public string Author { get; set; }  // setter público
+        public string Author { get; set; }
 
-        public int Pages { get; set; }  // setter público
+        [Required]
+        public string Capa { get; set; }
 
-        public DateTime? DateRead { get; set; }  // setter público
+        public int Pages { get; set; }
 
-        public Book(int id, string title, string author, int pages, DateTime? dateRead)
+        public DateTime? DateRead { get; set; }
+
+        public Book(int id, string title, string author, string capa, int pages, DateTime? dateRead)
         {
             Id = id;
             Title = title;
             Author = author;
+            Capa = capa;
             Pages = pages;
             DateRead = dateRead;
         }

@@ -8,13 +8,16 @@ namespace MyReading.API.ViewModel
         public int Id { get; set; }
 
         [Required]
-        public string? Title { get; set; }  // setter público
+        public string? Title { get; set; }  
 
         [Required]
-        public string? Author { get; set; }  // setter público
+        public string? Author { get; set; }
 
-        public int Pages { get; set; }  // setter público
+        [Required]
+        public IFormFile? Capa { get; set; }
 
-        public DateTime? DateRead { get; set; }  // setter público
+        public int Pages { get; set; }
+
+        public DateTime? DateRead { get; set; } 
     }
 }
