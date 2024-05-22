@@ -1,42 +1,106 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyReading.API.Models;
-
+using MyReading.API.Infrastructure.Repository;
+using MyReading.API.Model;
+using MyReading.API.ViewModel;
 
 namespace MyReading.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/book")]
     public class BookController : ControllerBase
     {
-        private static List<Book> books = new List<Book>
+        private readonly IBookRepository _bookRepository;
+
+        public BookController(IBookRepository bookRepository)
         {
-            new Book { Id = 1, Title = "Book One", Author = "Author One", Pages = 300, DateRead = DateTime.Now.AddDays(-10) },
-            new Book { Id = 2, Title = "Book Two", Author = "Author Two", Pages = 250, DateRead = DateTime.Now.AddDays(-5) }
-        };
+            _bookRepository = bookRepository;
+        }
+
+        [HttpPost]
+        public IActionResult Add([FromForm] BookViewModel bookView)
+        {
+            var filePath = Path.Combine("Storage", bookView.Capa.FileName);
+
+            using Stream fileStream = new FileStream(filePath, FileMode.Create);
+            bookView.Capa.CopyTo(fileStream);
+
+            var book = new Book(bookView.Id, bookView.Title, bookView.Author, filePath, bookView.Pages, bookView.DateRead);
+            _bookRepository.Add(book);
+            return Ok();
+        }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Book>> GetBooks()
+        [Route("{id}/download")]
+        public IActionResult DownloadCapa(int id)
+        { 
+            var book = _bookRepository.GetById(id);
+            var dataBytes = System.IO.File.ReadAllBytes(book.Capa);
+
+            return File(dataBytes, "image/png");
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            return books;
+            var books = _bookRepository.GetAll();
+            return Ok(books);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Book> GetBook(int id)
+        public IActionResult GetById(int id)
         {
-            var book = books.FirstOrDefault(b => b.Id == id);
+            var book = _bookRepository.GetById(id);
             if (book == null)
             {
                 return NotFound();
             }
-            return book;
+            return Ok(book);
         }
 
-        [HttpPost]
-        public ActionResult<Book> CreateBook(Book book)
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromForm] BookViewModel bookView)
         {
-            book.Id = books.Max(b => b.Id) + 1;
-            books.Add(book);
-            return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
+            var existingBook = _bookRepository.GetById(id);
+            if (existingBook == null)
+            {
+                return NotFound();
+            }
+
+            existingBook.Title = bookView.Title;
+            existingBook.Author = bookView.Author;
+            existingBook.Pages = bookView.Pages;
+            existingBook.DateRead = bookView.DateRead;
+
+            if (bookView.Capa != null)
+            {
+                var filePath = Path.Combine("Storage", bookView.Capa.FileName);
+
+                // Delete old file if exists
+                if (System.IO.File.Exists(existingBook.Capa))
+                {
+                    System.IO.File.Delete(existingBook.Capa);
+                }
+
+                using Stream fileStream = new FileStream(filePath, FileMode.Create);
+                bookView.Capa.CopyTo(fileStream);
+                existingBook.Capa = filePath;
+            }
+
+            _bookRepository.Update(existingBook);
+            return Ok(existingBook);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var book = _bookRepository.GetById(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            _bookRepository.Delete(id);
+            return Ok();
         }
     }
 }
