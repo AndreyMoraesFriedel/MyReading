@@ -36,3 +36,11 @@ C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.A
 C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\obj\Debug\net8.0\MyReading.API.pdb
 C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\obj\Debug\net8.0\MyReading.API.genruntimeconfig.cache
 C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\obj\Debug\net8.0\ref\MyReading.API.dll
+C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyReading.API.Infrastructure.Repository;
 using MyReading.API.Model;
 using MyReading.API.ViewModel;
@@ -16,6 +17,7 @@ namespace MyReading.API.Controllers
             _bookRepository = bookRepository;
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Add([FromForm] BookViewModel bookView)
         {
@@ -29,6 +31,7 @@ namespace MyReading.API.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpGet]
         [Route("{id}/download")]
         public IActionResult DownloadCapa(int id)
@@ -39,6 +42,7 @@ namespace MyReading.API.Controllers
             return File(dataBytes, "image/png");
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -46,6 +50,7 @@ namespace MyReading.API.Controllers
             return Ok(books);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -57,6 +62,7 @@ namespace MyReading.API.Controllers
             return Ok(book);
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromForm] BookViewModel bookView)
         {
@@ -90,6 +96,7 @@ namespace MyReading.API.Controllers
             return Ok(existingBook);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
