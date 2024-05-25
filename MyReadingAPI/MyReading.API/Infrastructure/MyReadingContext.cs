@@ -6,6 +6,7 @@ namespace MyReading.API.Infrastructure
 {
     public class MyReadingContext : DbContext
     {
+        public DbSet<User> Users { get; set; }
         public DbSet<Book> Books { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

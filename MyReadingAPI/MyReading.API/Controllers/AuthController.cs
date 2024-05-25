@@ -12,7 +12,7 @@ namespace MyReading.API.Controllers
         {
             if (username == "Andrey" && password == "123456")
             {
-                var token = TokenService.GenerateToken(new Model.Book());
+                var token = TokenService.GenerateToken(new Model.User());
                 return Ok(token);
             }
 

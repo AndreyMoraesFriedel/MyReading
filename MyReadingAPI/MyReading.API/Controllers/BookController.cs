@@ -50,7 +50,6 @@ namespace MyReading.API.Controllers
             return Ok(books);
         }
 
-        [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {

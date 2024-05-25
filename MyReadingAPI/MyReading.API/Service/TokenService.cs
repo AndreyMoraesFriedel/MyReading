@@ -8,13 +8,13 @@ namespace MyReading.API.Service
 {
     public class TokenService
     {
-        public static object GenerateToken(Book book)
+        public static object GenerateToken(User user)
         {
             var key = Encoding.ASCII.GetBytes(Key.Secret);
             var tokenConfig = new SecurityTokenDescriptor
             {
                 Subject = new System.Security.Claims.ClaimsIdentity(new Claim[] {
-                    new Claim("bookId", book.Id.ToString()),
+                    new Claim("userId", user.Id.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddHours(3),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

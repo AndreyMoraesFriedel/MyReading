@@ -42,6 +42,8 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddTransient<IBookRepository, BookRepository>();
 
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+
 var key = Encoding.ASCII.GetBytes(MyReading.API.Key.Secret);
 
 builder.Services.AddAuthentication(x =>
