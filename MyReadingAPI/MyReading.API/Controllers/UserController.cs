@@ -44,9 +44,9 @@ namespace MyReading.API.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult Get(int pageNumber, int pageQuantity)
         {
-            var users = _userRepository.GetAll();
+            var users = _userRepository.Get(pageNumber, pageQuantity);
             return Ok(users);
         }
 

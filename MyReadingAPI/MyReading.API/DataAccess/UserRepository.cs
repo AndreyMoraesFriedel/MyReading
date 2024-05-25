@@ -14,9 +14,9 @@ namespace MyReading.API.DataAccess
             _context.SaveChanges();
         }
 
-        public List<User> GetAll()
+        public List<User> Get(int pageNumber, int pageQuantity)
         {
-            return _context.Users.ToList();
+            return _context.Users.Skip(pageNumber * pageQuantity).Take(pageQuantity).ToList();
         }
 
         public User GetById(int id)
