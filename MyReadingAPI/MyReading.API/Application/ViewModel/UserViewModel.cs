@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyReading.API.ViewModel
+namespace MyReading.API.Application.ViewModel
 {
     public class UserViewModel
     {

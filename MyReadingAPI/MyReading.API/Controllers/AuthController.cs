@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyReading.API.Service;
+using MyReading.API.Application.Service;
 
 namespace MyReading.API.Controllers
 {
@@ -12,7 +12,7 @@ namespace MyReading.API.Controllers
         {
             if (username == "Andrey" && password == "123456")
             {
-                var token = TokenService.GenerateToken(new Model.User());
+                var token = TokenService.GenerateToken(new Domain.Model.User());
                 return Ok(token);
             }
 

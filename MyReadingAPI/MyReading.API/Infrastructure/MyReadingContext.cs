@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyReading.API.Model;
-
+using MyReading.API.Domain.Model;
 
 namespace MyReading.API.Infrastructure
 {

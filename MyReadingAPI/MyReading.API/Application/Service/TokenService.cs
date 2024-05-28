@@ -1,10 +1,10 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using MyReading.API.Model;
+using MyReading.API.Domain.Model;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace MyReading.API.Service
+namespace MyReading.API.Application.Service
 {
     public class TokenService
     {
@@ -13,7 +13,7 @@ namespace MyReading.API.Service
             var key = Encoding.ASCII.GetBytes(Key.Secret);
             var tokenConfig = new SecurityTokenDescriptor
             {
-                Subject = new System.Security.Claims.ClaimsIdentity(new Claim[] {
+                Subject = new ClaimsIdentity(new Claim[] {
                     new Claim("userId", user.Id.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddHours(3),

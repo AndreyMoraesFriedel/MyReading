@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyReading.API.Infrastructure.Repository;
-using MyReading.API.Model;
-using MyReading.API.ViewModel;
+using MyReading.API.Domain.Model;
+using MyReading.API.Application.ViewModel;
 
 namespace MyReading.API.Controllers
 {

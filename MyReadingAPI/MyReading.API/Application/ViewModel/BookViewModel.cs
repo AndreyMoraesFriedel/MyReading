@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyReading.API.ViewModel
+namespace MyReading.API.Application.ViewModel
 {
     public class BookViewModel
     {
@@ -8,7 +8,7 @@ namespace MyReading.API.ViewModel
         public int Id { get; set; }
 
         [Required]
-        public string? Title { get; set; }  
+        public string? Title { get; set; }
 
         [Required]
         public string? Author { get; set; }
@@ -18,6 +18,6 @@ namespace MyReading.API.ViewModel
 
         public int Pages { get; set; }
 
-        public DateTime? DateRead { get; set; } 
+        public DateTime? DateRead { get; set; }
     }
 }

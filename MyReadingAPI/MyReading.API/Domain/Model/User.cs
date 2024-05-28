@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MyReading.API.Model
+namespace MyReading.API.Domain.Model
 {
     [Table("User")]
     public class User

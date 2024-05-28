@@ -1,6 +1,7 @@
+using MyReading.API.Domain.DTOs;
+using MyReading.API.Domain.Model;
 using MyReading.API.Infrastructure;
 using MyReading.API.Infrastructure.Repository;
-using MyReading.API.Model;
 
 namespace MyReading.API.DataAccess
 {
@@ -14,9 +15,19 @@ namespace MyReading.API.DataAccess
             _context.SaveChanges();
         }
 
-        public List<Book> Get(int pageNumber, int pageQuantity)
+        public List<BookDTO> Get(int pageNumber, int pageQuantity)
         {
-            return _context.Books.Skip(pageNumber * pageQuantity).Take(pageQuantity).ToList();
+            return _context.Books.Skip(pageNumber * pageQuantity)
+                .Take(pageQuantity)
+                .Select(b =>
+                new BookDTO()
+                {
+                    Id = b.Id,
+                    Title = b.Title,
+                    Author = b.Author,
+                    Capa = b.Capa,
+                    Pages = b.Pages,
+                }).ToList();
         }
 
         public Book GetById(int id)
