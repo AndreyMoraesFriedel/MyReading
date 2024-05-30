@@ -10,7 +10,7 @@ namespace MyReading.API.Controllers
         [HttpPost]
         public IActionResult Auth(string username, string password)
         {
-            if (username == "Andrey" && password == "123456")
+            if (username == "AndLucGus" && password == "123456")
             {
                 var token = TokenService.GenerateToken(new Domain.Model.User());
                 return Ok(token);

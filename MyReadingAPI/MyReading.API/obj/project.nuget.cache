@@ -1,9 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "p7uAivAHTi/TaTEEMUFlxae0gc74llrCwqRSufogdkvRgchPPbmbAYFyEWWDflOZqUUGVaTscCIzAtzVaMN5wg==",
+  "dgSpecHash": "9pUPQLSSB9BkVe5OQRE+/hpjC9W2arwiECAyX8fBp6b041dGvtNTL7R505tUn+s+KymYkNfTP0+myLae758Lyg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Central Midia\\Downloads\\MeusProjetos\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Central Midia\\.nuget\\packages\\asp.versioning.abstractions\\8.1.0\\asp.versioning.abstractions.8.1.0.nupkg.sha512",
+    "C:\\Users\\Central Midia\\.nuget\\packages\\asp.versioning.http\\8.1.0\\asp.versioning.http.8.1.0.nupkg.sha512",
+    "C:\\Users\\Central Midia\\.nuget\\packages\\asp.versioning.mvc\\8.1.0\\asp.versioning.mvc.8.1.0.nupkg.sha512",
+    "C:\\Users\\Central Midia\\.nuget\\packages\\asp.versioning.mvc.apiexplorer\\8.1.0\\asp.versioning.mvc.apiexplorer.8.1.0.nupkg.sha512",
     "C:\\Users\\Central Midia\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\Central Midia\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Central Midia\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.6\\microsoft.aspnetcore.authentication.jwtbearer.8.0.6.nupkg.sha512",

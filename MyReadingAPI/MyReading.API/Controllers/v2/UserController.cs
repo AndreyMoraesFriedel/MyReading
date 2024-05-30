@@ -5,12 +5,14 @@ using MyReading.API.Domain.Model;
 using MyReading.API.Application.ViewModel;
 using AutoMapper;
 using MyReading.API.Domain.DTOs;
+using Asp.Versioning;
 
 
-namespace MyReading.API.Controllers
+namespace MyReading.API.Controllers.v2
 {
     [ApiController]
-    [Route("api/v1/user")]
+    [Route("api/v{version:apiVersion}/user")]
+    [ApiVersion("2.0")]
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
