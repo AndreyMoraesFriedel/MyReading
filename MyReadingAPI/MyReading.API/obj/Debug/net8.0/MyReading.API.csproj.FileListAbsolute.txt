@@ -5,6 +5,7 @@ C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.A
 C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\MyReading.API.runtimeconfig.json
 C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\MyReading.API.dll
 C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\MyReading.API.pdb
+C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\Central Midia\Downloads\MeusProjetos\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll

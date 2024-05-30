@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MyReading.API.Infrastructure.Repository;
 using MyReading.API.Domain.Model;
 using MyReading.API.Application.ViewModel;
+using AutoMapper;
+using MyReading.API.Domain.DTOs;
 
 namespace MyReading.API.Controllers
 {
@@ -11,10 +13,12 @@ namespace MyReading.API.Controllers
     public class BookController : ControllerBase
     {
         private readonly IBookRepository _bookRepository;
+        private readonly IMapper _mapper;
 
-        public BookController(IBookRepository bookRepository)
+        public BookController(IBookRepository bookRepository, IMapper mapper)
         {
-            _bookRepository = bookRepository;
+            _bookRepository = bookRepository ?? throw new ArgumentNullException(nameof(bookRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [Authorize]
@@ -23,8 +27,10 @@ namespace MyReading.API.Controllers
         {
             var filePath = Path.Combine("Storage", bookView.Capa.FileName);
 
-            using Stream fileStream = new FileStream(filePath, FileMode.Create);
-            bookView.Capa.CopyTo(fileStream);
+            using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                bookView.Capa.CopyTo(fileStream);
+            }
 
             var book = new Book(bookView.Id, bookView.Title, bookView.Author, filePath, bookView.Pages, bookView.DateRead);
             _bookRepository.Add(book);
@@ -32,13 +38,16 @@ namespace MyReading.API.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        [Route("{id}/download")]
+        [HttpGet("{id}/download")]
         public IActionResult DownloadCapa(int id)
-        { 
+        {
             var book = _bookRepository.GetById(id);
-            var dataBytes = System.IO.File.ReadAllBytes(book.Capa);
+            if (book == null)
+            {
+                return NotFound();
+            }
 
+            var dataBytes = System.IO.File.ReadAllBytes(book.Capa);
             return File(dataBytes, "image/png");
         }
 
@@ -47,9 +56,11 @@ namespace MyReading.API.Controllers
         public IActionResult Get(int pageNumber, int pageQuantity)
         {
             var books = _bookRepository.Get(pageNumber, pageQuantity);
-            return Ok(books);
+            var booksDTO = _mapper.Map<IEnumerable<BookDTO>>(books);
+            return Ok(booksDTO);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -58,7 +69,9 @@ namespace MyReading.API.Controllers
             {
                 return NotFound();
             }
-            return Ok(book);
+
+            var bookDTO = _mapper.Map<BookDTO>(book);
+            return Ok(bookDTO);
         }
 
         [Authorize]
@@ -86,13 +99,16 @@ namespace MyReading.API.Controllers
                     System.IO.File.Delete(existingBook.Capa);
                 }
 
-                using Stream fileStream = new FileStream(filePath, FileMode.Create);
-                bookView.Capa.CopyTo(fileStream);
+                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    bookView.Capa.CopyTo(fileStream);
+                }
                 existingBook.Capa = filePath;
             }
 
             _bookRepository.Update(existingBook);
-            return Ok(existingBook);
+            var updatedBookDTO = _mapper.Map<BookDTO>(existingBook);
+            return Ok(updatedBookDTO);
         }
 
         [Authorize]

@@ -28,7 +28,7 @@ namespace MyReading.API.DataAccess
                 }).ToList();
         }
 
-        public User GetById(int id)
+        public User? GetById(int id)
         {
             return _context.Users.Find(id);
         }

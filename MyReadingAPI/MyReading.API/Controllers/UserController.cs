@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using MyReading.API.Infrastructure.Repository;
 using MyReading.API.Domain.Model;
 using MyReading.API.Application.ViewModel;
+using AutoMapper;
+using MyReading.API.Domain.DTOs;
+
 
 namespace MyReading.API.Controllers
 {
@@ -11,10 +14,12 @@ namespace MyReading.API.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, IMapper mapper)
         {
-            _userRepository = userRepository;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [Authorize]
@@ -26,19 +31,22 @@ namespace MyReading.API.Controllers
             using Stream fileStream = new FileStream(filePath, FileMode.Create);
             userView.Photo.CopyTo(fileStream);
 
-            var User = new User(userView.Id, userView.Name, userView.Email, userView.Password,filePath);
-            _userRepository.Add(User);
+            var user = new User(userView.Id, userView.Name, userView.Email, userView.Password, filePath);
+            _userRepository.Add(user);
             return Ok();
         }
 
         [Authorize]
-        [HttpGet]
-        [Route("{id}/download")]
+        [HttpGet("{id}/download")]
         public IActionResult DownloadPhoto(int id)
         {
             var user = _userRepository.GetById(id);
-            var dataBytes = System.IO.File.ReadAllBytes(user.Photo);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
+            var dataBytes = System.IO.File.ReadAllBytes(user.Photo);
             return File(dataBytes, "image/png");
         }
 
@@ -47,7 +55,8 @@ namespace MyReading.API.Controllers
         public IActionResult Get(int pageNumber, int pageQuantity)
         {
             var users = _userRepository.Get(pageNumber, pageQuantity);
-            return Ok(users);
+            var usersDTO = _mapper.Map<IEnumerable<UserDTO>>(users);
+            return Ok(usersDTO);
         }
 
         [Authorize]
@@ -59,7 +68,9 @@ namespace MyReading.API.Controllers
             {
                 return NotFound();
             }
-            return Ok(user);
+
+            var userDTO = _mapper.Map<UserDTO>(user);
+            return Ok(userDTO);
         }
 
         [Authorize]
@@ -92,7 +103,8 @@ namespace MyReading.API.Controllers
             }
 
             _userRepository.Update(existingUser);
-            return Ok(existingUser);
+            var updatedUserDTO = _mapper.Map<UserDTO>(existingUser);
+            return Ok(updatedUserDTO);
         }
 
         [Authorize]
