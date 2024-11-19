@@ -7,6 +7,8 @@ namespace MyReading.API.Infrastructure
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Book> Books { get; set; }
+        public DbSet<ReadingProgress> ReadingProgresses { get; set; }
+        public DbSet<ReadingStreak> ReadingStreaks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

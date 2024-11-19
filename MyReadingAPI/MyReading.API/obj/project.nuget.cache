@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9pUPQLSSB9BkVe5OQRE+/hpjC9W2arwiECAyX8fBp6b041dGvtNTL7R505tUn+s+KymYkNfTP0+myLae758Lyg==",
+  "dgSpecHash": "ElJAgfqflaE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Central Midia\\Downloads\\MeusProjetos\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj",
+  "projectFilePath": "C:\\Users\\Central Midia\\Downloads\\MyProjects\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Central Midia\\.nuget\\packages\\asp.versioning.abstractions\\8.1.0\\asp.versioning.abstractions.8.1.0.nupkg.sha512",
     "C:\\Users\\Central Midia\\.nuget\\packages\\asp.versioning.http\\8.1.0\\asp.versioning.http.8.1.0.nupkg.sha512",

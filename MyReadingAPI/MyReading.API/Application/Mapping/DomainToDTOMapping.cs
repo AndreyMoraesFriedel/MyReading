@@ -10,6 +10,8 @@ namespace MyReading.API.Application.Mapping
         {
             CreateMap<User, UserDTO>();
             CreateMap<Book, BookDTO>();
+            CreateMap<ReadingProgress, ReadingProgressDTO>();
+            CreateMap<ReadingStreak, ReadingStreakDTO>();
         }
     }
 }

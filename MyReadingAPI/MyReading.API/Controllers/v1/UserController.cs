@@ -24,7 +24,7 @@ namespace MyReading.API.Controllers.v1
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public IActionResult Add([FromForm] UserViewModel userView)
         {
@@ -38,7 +38,7 @@ namespace MyReading.API.Controllers.v1
             return Ok();
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}/download")]
         public IActionResult DownloadPhoto(int id)
         {
@@ -52,7 +52,7 @@ namespace MyReading.API.Controllers.v1
             return File(dataBytes, "image/png");
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public IActionResult Get(int pageNumber, int pageQuantity)
         {
@@ -61,7 +61,7 @@ namespace MyReading.API.Controllers.v1
             return Ok(usersDTO);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -75,7 +75,7 @@ namespace MyReading.API.Controllers.v1
             return Ok(userDTO);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromForm] UserViewModel userView)
         {
@@ -109,7 +109,7 @@ namespace MyReading.API.Controllers.v1
             return Ok(updatedUserDTO);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

@@ -65,6 +65,8 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddTransient<IBookRepository, BookRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IReadingProgressRepository, ReadingProgressRepository>();
+builder.Services.AddTransient<IReadingStreakRepository,  ReadingStreakRepository>();
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>();
 
 builder.Services.AddCors(options => {
@@ -124,7 +126,7 @@ app.UseCors("MyPolicy");
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 
