@@ -8,35 +8,41 @@
         class="cadastro-rectangle7"
       />
       <span class="cadastro-text3">Cadastre-se</span>
-      <!--Nome-->
+      <!-- Nome -->
       <input
         type="text"
-        v-model="Text"
+        v-model="usuario.nome"
         placeholder="Digite seu nome"
         class="cadastro-retangulo-do-nome"
       />
-      <!--Email-->
+      <!-- Email -->
       <input
         type="email"
-        v-model="email"
+        v-model="usuario.email"
         placeholder="Digite seu email"
         class="cadastro-retangulo-do-email"
       />
-      <!--Senha-->
+      <!-- Senha -->
       <input
         type="password"
-        v-model="senha"
+        v-model="usuario.senha"
         placeholder="Digite sua senha"
         class="cadastro-retangulo-da-senha"
       />
-      <!--CSenha-->
+      <!-- Confirmar Senha -->
       <input
         type="password"
-        v-model="senha"
+        v-model="usuario.confirmarSenha"
         placeholder="Confirme sua senha"
         class="cadastro-retangulo-da-confirma-senha"
       />
-      
+
+      <!--FotoPerfil-->
+      <div class="cadastro-foto-perfil">
+        <label for="cadastro-coverImage" style="color: white">Foto de Perfil:</label>
+        <input type="file" @change="selecionarImagem" id="cadastro-coverImage" accept="image/*" />
+      </div>
+
       <!-- Botão Criar Conta com evento de clique -->
       <button class="cadastro-button-criar-conta" @click="registrar">
         <span class="cadastro-text6">Criar Conta</span>
@@ -51,23 +57,64 @@
 </template>
 
 <script>
+import axios from '../http-common';
+
 export default {
   name: 'Cadastro',
+  data() {
+    return {
+      usuario: {
+        nome: '',
+        email: '',
+        senha: '',
+        confirmarSenha: '',
+        foto: null,
+      },
+    };
+  },
   metaInfo: {
     title: 'Cadastro',
   },
   methods: {
-    registrar() {
-      // Aqui você pode adicionar lógica de verificação e salvamento dos dados
-      
-      // Redireciona para a tela de login após o cadastro
-      this.$router.push('/');
+    async registrar() {
+      if (this.usuario.senha !== this.usuario.confirmarSenha) {
+        alert('As senhas não coincidem!');
+        return;
+      }
+      if (!this.usuario.foto) {
+        alert('Por favor, anexe uma foto!');
+        return;
+      }
+
+      // Configurar o FormData
+      const formData = new FormData();
+      formData.append('Name', this.usuario.nome);
+      formData.append('Email', this.usuario.email);
+      formData.append('Password', this.usuario.senha);
+      formData.append('Photo', this.usuario.foto);
+
+      try {
+        // Enviar os dados para a API
+        await axios.post('/api/v1.0/user', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        alert('Usuário cadastrado com sucesso!');
+        this.$router.push('/'); // Redirecionar após o cadastro
+      } catch (error) {
+        console.error('Erro ao cadastrar usuário:', error);
+        alert('Erro ao cadastrar usuário. Verifique os dados e tente novamente.');
+      }
+    },
+    selecionarImagem(event) {
+      this.usuario.foto = event.target.files[0];
     },
     voltarLogin() {
       this.$router.push('/');
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -78,7 +125,7 @@ export default {
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
-  background-color: black;
+  background-color: rgb(129, 116, 116);
 }
 .cadastro-cadastro {
   width: 100%;
@@ -99,7 +146,7 @@ export default {
   border-radius: 40px;
 }
 .cadastro-retangulo-do-nome {
-  top: 221px;
+  top: 160px;
   left: 610px;
   width: 761px;
   height: 124px;
@@ -107,7 +154,7 @@ export default {
   border-radius: 15px;
 }
 .cadastro-retangulo-do-email {
-  top: 392px;
+  top: 320px;
   left: 610px;
   width: 761px;
   height: 124px;
@@ -115,7 +162,7 @@ export default {
   border-radius: 15px;
 }
 .cadastro-retangulo-da-senha {
-  top: 563px;
+  top: 480px;
   left: 610px;
   width: 761px;
   height: 124px;
@@ -123,7 +170,7 @@ export default {
   border-radius: 15px;
 }
 .cadastro-retangulo-da-confirma-senha {
-  top: 723px;
+  top: 640px;
   left: 610px;
   width: 761px;
   height: 124px;
@@ -173,7 +220,7 @@ export default {
   text-decoration: none;
 }
 .cadastro-text3 {
-  top: 97px;
+  top: 64px;
   left: 802px;
   color: rgba(255, 197, 109, 1);
   height: auto;
@@ -292,5 +339,18 @@ export default {
   font-weight: 400;
   line-height: 100%;
   text-decoration: none;
+}
+
+input[type="file"] {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 8px;
+    width: 500px;
+}
+.cadastro-foto-perfil{
+  left: 630px;
+  top: 800px;
+  position: absolute;
+  font-size: 30px;
 }
 </style>

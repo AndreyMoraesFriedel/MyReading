@@ -3230,19 +3230,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Central Midia\\.nuget\\packages\\": {}
+    "C:\\Users\\lucca\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Central Midia\\Downloads\\MyProjects\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj",
+      "projectUniqueName": "C:\\Users\\lucca\\OneDrive\\Documentos\\projetos\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj",
       "projectName": "MyReading.API",
-      "projectPath": "C:\\Users\\Central Midia\\Downloads\\MyProjects\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj",
-      "packagesPath": "C:\\Users\\Central Midia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Central Midia\\Downloads\\MyProjects\\MyReading\\MyReadingAPI\\MyReading.API\\obj\\",
+      "projectPath": "C:\\Users\\lucca\\OneDrive\\Documentos\\projetos\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj",
+      "packagesPath": "C:\\Users\\lucca\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lucca\\OneDrive\\Documentos\\projetos\\MyReading\\MyReadingAPI\\MyReading.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Central Midia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lucca\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3336,7 +3336,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
