@@ -24,7 +24,7 @@
           <nav>
             <ul>
               <!--Biblioteca-->
-              <li>
+              <li style="list-style-type: none">
                 <button  @click="goToBiblioteca" style="cursor: pointer;">
                   <img
                     src="/external/IconedeBiblioteca.png"
@@ -35,7 +35,7 @@
                 </button>
               </li>
               <!--Leitura-->
-              <li>
+              <li style="list-style-type: none">
                 <button  @click="goToLeitura" style="cursor: pointer;">
                   <img
                     src="/external/IconedeLeitura.png"
@@ -46,7 +46,7 @@
                 </button>
               </li>
               <!--Perfil-->
-              <li>
+              <li style="list-style-type: none">
                 <img
                   src="/external/IconedePerfil.png"
                   alt="Icone de Perfil"
@@ -63,7 +63,7 @@
                 alt="LivroDoStreak"
                 class="streak-livro"
               />
-              <span class="streak-numero">99</span>
+              <span class="streak-numero">{{ streakDays }}</span>
           </div>
       </header>
       <main>
@@ -136,12 +136,46 @@
 </template>
 
 <script>
+import axios from '../http-common';
+
 export default {
   name: 'Perfil',
+  data() {
+    return {
+      streakDays: 0,
+    };
+  },
   metaInfo: {
     title: 'Perfil',
   },
+  created() {
+    const userId = this.$route.query.id;
+
+    // Recupera a streak do localStorage
+    const storedStreak = localStorage.getItem('streakDays');
+    if (storedStreak) {
+      this.streakDays = parseInt(storedStreak, 10);
+    }
+
+    // Se um id do usuário está disponível, busca a streak do backend
+    if (userId) {
+      this.getStreak(userId);
+    }
+  },
   methods: {
+    // Método para fazer a requisição ao backend
+    getStreak(userId) {
+      axios
+        .get(`/api/v1/reading-streak/total/${userId}`)
+        .then((response) => {
+          this.streakDays = response.data; // Armazena o valor da streak na variável
+          // Salva no localStorage
+          localStorage.setItem('streakDays', this.streakDays);
+        })
+        .catch((error) => {
+          console.error('Erro ao buscar a streak:', error);
+        });
+    },
     goToBiblioteca() {
       this.$router.push('/biblioteca');
     },

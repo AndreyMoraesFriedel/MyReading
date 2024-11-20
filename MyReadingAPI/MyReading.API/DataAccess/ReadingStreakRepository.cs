@@ -34,6 +34,12 @@ namespace MyReading.API.DataAccess
         {
             return _context.ReadingStreaks.Find(id);
         }
+        public List<ReadingStreak> GetByUserId(int userId)
+        {
+            return _context.ReadingStreaks
+                .Where(rs => rs.UserId == userId)
+                .ToList();
+        }
 
         public void Update(ReadingStreak readingStreak)
         {

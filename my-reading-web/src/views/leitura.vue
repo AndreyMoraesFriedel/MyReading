@@ -17,19 +17,19 @@
         <nav>
           <ul>
             <!-- Biblioteca -->
-            <li>
-              <button  @click="goToBiblioteca" style="cursor: pointer;">
+            <li style="list-style-type: none">
+              <button @click="goToBiblioteca" style="cursor: pointer;">
                 <img src="/external/IconedeBiblioteca.png" alt="Icone de Biblioteca" class="nav-icone-de-biblioteca" />
                 <span class="nav-texto-biblioteca">Biblioteca</span>
               </button>
             </li>
             <!-- Leitura -->
-            <li>
+            <li style="list-style-type: none">
               <img src="/external/IconedeLeitura.png" alt="Icone de Leitura" class="nav-icone-de-leitura" />
               <span class="nav-texto-leitura">Leitura</span>
             </li>
             <!-- Perfil -->
-            <li>
+            <li style="list-style-type: none">
               <button  @click="goToPerfil" style="cursor: pointer;">
                 <img src="/external/IconedePerfil.png" alt="Icone de Perfil" class="nav-icone-de-perfil" />
                 <span class="nav-texto-perfil">Perfil</span>
@@ -40,7 +40,7 @@
         <!-- Ofensiva -->
         <div class="streak">
           <img src="/external/livrostreak.svg" alt="LivroDoStreak" class="streak-livro" />
-          <span class="streak-numero">{{ streakCount }}</span>
+          <span class="streak-numero">{{ streakDays }}</span>
         </div>
       </header>
       <!-- PARTE DEBAIXO -->
@@ -81,7 +81,7 @@ export default {
       seconds: 0,
       isPaused: false,
       timerStatus: "Timer zerado",
-      streakCount: 0, // Adiciona o valor da streak
+      streakDays: 0, // Adiciona o valor da streak
     };
   },
   computed: {
@@ -167,25 +167,25 @@ export default {
 
         if (difference === 1) {
           // Leitura foi feita no dia anterior, incrementa a streak
-          this.streakCount = parseInt(localStorage.getItem('streakCount')) + 1;
+          this.streakDays = parseInt(localStorage.getItem('streakDays')) + 1;
         } else if (difference > 1) {
           // Passaram-se mais de um dia, reseta a streak
-          this.streakCount = 1;
+          this.streakDays = 1;
         }
       } else {
         // Primeira leitura, inicia a streak
-        this.streakCount = 1;
+        this.streakDays = 1;
       }
 
       // Salva o valor atualizado da streak e a data de hoje
-      localStorage.setItem('streakCount', this.streakCount);
+      localStorage.setItem('streakDays', this.streakDays);
       localStorage.setItem('lastReadingDate', today);
     },
   },
   mounted() {
     this.gerarFraseMotivadora();
     this.carregarLivros(); // Carrega os livros ao montar o componente
-    this.streakCount = parseInt(localStorage.getItem('streakCount')) || 0;
+    this.streakDays = parseInt(localStorage.getItem('streakDays')) || 0;
   },
 };
 </script>
@@ -424,7 +424,10 @@ export default {
   left: 166px;
   top: -26px;
 }
-button {
+
+#startBtn,
+#pauseBtn,
+#finalizeBtn {
   font-size: 1em;
   padding: 10px 20px;
   margin: 5px;
@@ -435,6 +438,7 @@ button {
   height: 59px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) ;
 }
+
 #startBtn { background-color: #4CAF50; color: white; }
 #pauseBtn { background-color: #FF9800; color: white; }
 #finalizeBtn { background-color: #F44336; color: white; }

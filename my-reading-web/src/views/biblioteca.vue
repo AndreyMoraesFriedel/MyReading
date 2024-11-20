@@ -3,7 +3,6 @@
     <div class="biblioteca-biblioteca">
       <!--NAV-->
       <header>
-        <!--FundoNav-->
         <div> <!--Imagem Cabecalho-->
             <img
               src="../../public/external/header.svg"
@@ -23,8 +22,7 @@
         <!--Opcoes-->
           <nav>
             <ul>
-              <!--Biblioteca-->
-              <li>
+              <li style="list-style-type: none">
                 <img
                   src="/external/IconedeBiblioteca.png"
                   alt="Icone de Biblioteca"
@@ -32,9 +30,8 @@
                 />
                 <span class="nav-texto-biblioteca">Biblioteca</span>
               </li>
-              <!--Leitura-->
-              <li>
-                <button  @click="irParaLeitura" style="cursor: pointer;">
+              <li style="list-style-type: none">
+                <button @click="irParaLeitura" style="cursor: pointer;">
                   <img
                     src="/external/IconedeLeitura.png"
                     alt="Icone de Leitura"
@@ -43,9 +40,8 @@
                   <span class="nav-texto-leitura">Leitura</span>
                 </button>
               </li>
-              <!--Perfil-->
-              <li>
-                <button  @click="irParaPerfil" style="cursor: pointer;">
+              <li style="list-style-type: none">
+                <button @click="irParaPerfil" style="cursor: pointer;">
                   <img
                     src="/external/IconedePerfil.png"
                     alt="Icone de Perfil"
@@ -56,15 +52,14 @@
               </li>
             </ul>
           </nav>
-        <!--Ofensiva-->
-          <div class="streak">
-              <img
-                src="/external/livrostreak.svg"
-                alt="LivroDoStreak"
-                class="streak-livro"
-              />
-              <span class="streak-numero">99</span>
-          </div>
+        <div class="streak">
+            <img
+              src="/external/livrostreak.svg"
+              alt="LivroDoStreak"
+              class="streak-livro"
+            />
+            <span class="streak-numero">{{ streakDays }}</span>
+        </div>
       </header>
       <!--PARTE DEBAIXO-->
       <main>
@@ -80,14 +75,12 @@
             alt="Rectangle58210"
             class="biblioteca-rectangle5"
           />
-          
-          <!-- Adicionando navegação ao clicar em "Adicionar Livro" @click="irParaAdicionarLivro"-->      
           <img
             src="/external/pluscircle8211-3h5.svg"
             alt="Pluscircle8211"
             class="biblioteca-pluscircle"
           />
-          <span class="biblioteca-text9" >Adicione um Livro</span>
+          <span class="biblioteca-text9">Adicione um Livro</span>
         </button>
 
         <div v-if="exibirFormulario" class="biblioteca-form-popup">
@@ -116,6 +109,8 @@
 </template>
 
 <script>
+import axios from '../http-common';
+
 export default {
   name: 'Biblioteca',
   data() {
@@ -128,23 +123,47 @@ export default {
         paginas: '',
         capa: null,
       },
+      streakDays: 0, // Variável para armazenar o valor da streak
     };
   },
   metaInfo: {
     title: 'Biblioteca',
   },
+  created() {
+    const userId = this.$route.query.id;
+
+    // Recupera a streak do localStorage
+    const storedStreak = localStorage.getItem('streakDays');
+    if (storedStreak) {
+      this.streakDays = parseInt(storedStreak, 10);
+    }
+
+    // Se um id do usuário está disponível, busca a streak do backend
+    if (userId) {
+      this.getStreak(userId);
+    }
+  },
   methods: {
+    // Método para fazer a requisição ao backend
+    getStreak(userId) {
+      axios
+        .get(`/api/v1/reading-streak/total/${userId}`)
+        .then((response) => {
+          this.streakDays = response.data; // Armazena o valor da streak na variável
+          // Salva no localStorage
+          localStorage.setItem('streakDays', this.streakDays);
+        })
+        .catch((error) => {
+          console.error('Erro ao buscar a streak:', error);
+        });
+    },
     irParaPerfil() {
       this.$router.push('/Perfil');
     },
     irParaLeitura() {
       this.$router.push('/leitura');
     },
-    /*irParaAdicionarLivro() {
-      this.$router.push({ name: 'AdicionarLivro' });
-    }
-      */
-      abrirFormulario() {
+    abrirFormulario() {
       this.exibirFormulario = true;
       this.mensagemConfirmacao = false;
     },
@@ -171,10 +190,11 @@ export default {
         paginas: '',
         capa: null,
       };
-    }
-  }
-}
+    },
+  },
+};
 </script>
+
 
 <style scoped>
 .biblioteca-container {

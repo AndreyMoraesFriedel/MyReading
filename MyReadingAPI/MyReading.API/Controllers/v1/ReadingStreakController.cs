@@ -61,6 +61,18 @@ namespace MyReading.API.Controllers.v1
             return Ok(streakDTO);
         }
 
+        [HttpGet("total/{userId}")]
+        public IActionResult GetTotalStreak(int userId)
+        {
+            // Obtém todas as streaks do usuário
+            var streaks = _readingStreakRepository.GetByUserId(userId);
+
+            // Calcula o total de dias
+            var totalStreakDays = streaks.Sum(rs => rs.LengthInDays);
+
+            return Ok(totalStreakDays);
+        }
+
         //[Authorize]
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] ReadingStreakViewModel streakView)
