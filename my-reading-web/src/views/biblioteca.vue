@@ -173,9 +173,25 @@ export default {
       this.resetarFormulario();
     },
     cadastrarLivro() {
-      if (this.livro.nome && this.livro.autor && this.livro.paginas) {
-        this.mensagemConfirmacao = true;
-        this.resetarFormulario();
+      // Verificar se os campos obrigatórios foram preenchidos
+      if (this.livro.nome && this.livro.autor && this.livro.paginas && this.livro.capa) {
+        const formData = new FormData();
+        formData.append('Title', this.livro.nome);
+        formData.append('Author', this.livro.autor);
+        formData.append('Pages', this.livro.paginas);
+        formData.append('DateRead', new Date().toISOString()); 
+        formData.append('Capa', this.livro.capa); 
+
+        axios
+          .post('/api/v1/book', formData)
+          .then(() => {
+            this.mensagemConfirmacao = true;
+            this.resetarFormulario();
+          })
+          .catch((error) => {
+            console.error('Erro ao cadastrar livro:', error);
+            alert('Erro ao cadastrar o livro. Tente novamente.');
+          });
       } else {
         alert('Por favor, preencha todos os campos obrigatórios.');
       }
