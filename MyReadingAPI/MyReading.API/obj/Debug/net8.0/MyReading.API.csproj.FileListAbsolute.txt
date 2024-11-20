@@ -352,3 +352,4 @@ C:\Users\lucca\OneDrive\Documentos\projetos\MyReading\MyReadingAPI\MyReading.API
 C:\Users\lucca\OneDrive\Documentos\projetos\MyReading\MyReadingAPI\MyReading.API\obj\Debug\net8.0\MyReading.API.pdb
 C:\Users\lucca\OneDrive\Documentos\projetos\MyReading\MyReadingAPI\MyReading.API\obj\Debug\net8.0\MyReading.API.genruntimeconfig.cache
 C:\Users\lucca\OneDrive\Documentos\projetos\MyReading\MyReadingAPI\MyReading.API\obj\Debug\net8.0\ref\MyReading.API.dll
+C:\Users\Central Midia\Downloads\MyProjects\MyReading\MyReadingAPI\MyReading.API\bin\Debug\net8.0\BCrypt.Net-Next.dll

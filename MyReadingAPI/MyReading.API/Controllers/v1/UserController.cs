@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MyReading.API.Infrastructure.Repository;
 using MyReading.API.Domain.Model;
 using MyReading.API.Application.ViewModel;
@@ -33,7 +32,10 @@ namespace MyReading.API.Controllers.v1
             using Stream fileStream = new FileStream(filePath, FileMode.Create);
             userView.Photo.CopyTo(fileStream);
 
-            var user = new User(userView.Id, userView.Name, userView.Email, userView.Password, filePath);
+            // Gera o hash da senha antes de salvar
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userView.Password);
+
+            var user = new User(userView.Id, userView.Name, userView.Email, hashedPassword, filePath);
             _userRepository.Add(user);
             return Ok();
         }
@@ -74,6 +76,25 @@ namespace MyReading.API.Controllers.v1
             var userDTO = _mapper.Map<UserDTO>(user);
             return Ok(userDTO);
         }
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginDTO loginDto)
+        {
+            var user = _userRepository.Authenticate(loginDto.Email, loginDto.Password);
+
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Email ou senha inválidos" });
+            }
+
+            return Ok(new
+            {
+                id = user.Id,
+                name = user.Name,
+                photo = user.Photo
+            });
+        }
+
 
         //[Authorize]
         [HttpPut("{id}")]

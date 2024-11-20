@@ -33,6 +33,18 @@ namespace MyReading.API.DataAccess
             return _context.Users.Find(id);
         }
 
+        public User Authenticate(string email, string password)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Email == email);
+
+            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
+            {
+                return null;
+            }
+
+            return user;
+        }
+
         public void Update(User user)
         {
             _context.Users.Update(user);

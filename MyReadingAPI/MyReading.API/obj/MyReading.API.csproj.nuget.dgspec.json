@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lucca\\OneDrive\\Documentos\\projetos\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj": {}
+    "C:\\Users\\Central Midia\\Downloads\\MyProjects\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lucca\\OneDrive\\Documentos\\projetos\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj": {
+    "C:\\Users\\Central Midia\\Downloads\\MyProjects\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lucca\\OneDrive\\Documentos\\projetos\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj",
+        "projectUniqueName": "C:\\Users\\Central Midia\\Downloads\\MyProjects\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj",
         "projectName": "MyReading.API",
-        "projectPath": "C:\\Users\\lucca\\OneDrive\\Documentos\\projetos\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj",
-        "packagesPath": "C:\\Users\\lucca\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lucca\\OneDrive\\Documentos\\projetos\\MyReading\\MyReadingAPI\\MyReading.API\\obj\\",
+        "projectPath": "C:\\Users\\Central Midia\\Downloads\\MyProjects\\MyReading\\MyReadingAPI\\MyReading.API\\MyReading.API.csproj",
+        "packagesPath": "C:\\Users\\Central Midia\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Central Midia\\Downloads\\MyProjects\\MyReading\\MyReadingAPI\\MyReading.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\lucca\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Central Midia\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -62,6 +62,10 @@
               "target": "Package",
               "version": "[13.0.1, )"
             },
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.6, )"
@@ -108,7 +112,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

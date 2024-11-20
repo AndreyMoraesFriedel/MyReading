@@ -34,10 +34,10 @@
       interativo satisfatório e motivador.
     </span>
     <!-- Botão "Entrar" com evento de clique -->
-    <button class="telade-login-button1" @click="goToBiblioteca">
+    <button class="telade-login-button1" @click="logar()">
       <span class="telade-login-text7">Entrar</span>
     </button>
-    <button class="telade-login-button2" @click="goToCadastro">
+    <button class="telade-login-button2" @click="goToCadastro()">
       <span class="telade-login-text8">Cadastre-se</span>
     </button>
     <img
@@ -54,32 +54,61 @@
 </template>
 
 <script>
+import axios from '../http-common';
+
 export default {
   name: 'TeladeLogin',
   data() {
     return {
       email: '', // Armazena o valor do email
       senha: '', // Armazena o valor da senha
+      errorMessage: '', // Mensagem de erro
     };
   },
   methods: {
-    goToBiblioteca() {
-      // Exemplo: Logando o email e senha no console (substitua isso pela lógica de autenticação)
-      console.log('Email:', this.email);
-      console.log('Senha:', this.senha);
-      
-      // Redireciona para a rota da biblioteca ao clicar no botão "Entrar"
-      this.$router.push('/biblioteca');
+    async logar() {
+      try {
+        // Verifica se os campos de email e senha estão preenchidos
+        if (!this.email || !this.senha) {
+          this.errorMessage = 'Preencha todos os campos.';
+          alert(this.errorMessage);
+          return;
+        }
+
+        // Realiza a requisição POST para o endpoint de login da API
+        const response = await axios.post('/api/v1.0/user/login', {
+          email: this.email,
+          password: this.senha,
+        });
+
+        const user = response.data;
+
+        // Redireciona para a biblioteca após login bem-sucedido
+        this.$router.push({
+          path: '/biblioteca',
+          query: { id: user.id, name: user.name, photo: user.photo },
+        });
+      } catch (error) {
+        // Exibe mensagem caso o usuário não seja encontrado ou ocorra um erro na API
+        if (error.response && error.response.status === 401) {
+          this.errorMessage = 'Email ou senha inválidos.';
+        } else {
+          this.errorMessage = 'Ocorreu um erro ao fazer login.';
+        }
+        alert(this.errorMessage);
+      }
     },
     goToCadastro() {
       this.$router.push('/cadastro');
-    }
+    },
   },
   metaInfo: {
     title: 'Login',
   },
 };
 </script>
+
+
 
 <style scoped>
 .telade-login-container {
