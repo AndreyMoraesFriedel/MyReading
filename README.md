@@ -1,2 +1,2 @@
 # MyReading
-Projeto MyReading é criado a fim de demonstrar conhecimentos adquiridos ao longo dos estudos em Desenvolvimento de Sistemas
+MyReading Project foi criado a fim de demonstrar os conhecimentos adquiridos ao longo do curso técnico em Desenvolvimento de Sistemas na escola CEDUP Hermann Hering em Blumenau.
