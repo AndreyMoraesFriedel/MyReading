@@ -30,9 +30,15 @@ namespace MyReading.API.Domain.Model
             Capa = capa;
             Pages = pages;
             DateRead = dateRead;
+
+            ReadingProgresses = new List<ReadingProgress>();
         }
 
         // Construtor padrão necessário para a desserialização do JSON
-        public Book() { }
+        public Book() {
+            ReadingProgresses = new List<ReadingProgress>();
+        }
+
+        public ICollection<ReadingProgress> ReadingProgresses { get; set; }
     }
 }

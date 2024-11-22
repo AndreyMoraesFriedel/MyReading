@@ -72,6 +72,18 @@ namespace MyReading.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_reading_progress", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ReadingProgress_Book",
+                        column: x => x.BookId,
+                        principalTable: "Book",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReadingProgress_User",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -89,24 +101,45 @@ namespace MyReading.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_reading_streak", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ReadingStreak_User",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_reading_progress_BookId",
+                table: "reading_progress",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_reading_progress_UserId",
+                table: "reading_progress",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_reading_streak_UserId",
+                table: "reading_streak",
+                column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Book");
-
-            migrationBuilder.DropTable(
-                name: "User");
-
-            migrationBuilder.DropTable(
                 name: "reading_progress");
 
             migrationBuilder.DropTable(
                 name: "reading_streak");
+
+            migrationBuilder.DropTable(
+                name: "Book");
+
+            migrationBuilder.DropTable(
+                name: "User");
         }
     }
 }

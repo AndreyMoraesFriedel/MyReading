@@ -28,8 +28,18 @@ namespace MyReading.API.Domain.Model
             Email = email;
             Password = password;
             Photo = photo;
+
+            ReadingProgresses = new List<ReadingProgress>();
+            ReadingStreaks = new List<ReadingStreak>();
         }
 
-        public User() { }
+        public User() {
+            ReadingProgresses = new List<ReadingProgress>();
+            ReadingStreaks = new List<ReadingStreak>();
+        }
+
+        public ICollection<ReadingStreak> ReadingStreaks { get; set; }
+
+        public ICollection<ReadingProgress> ReadingProgresses { get; set; }
     }
 }

@@ -24,7 +24,9 @@ namespace MyReading.API.Domain.Model
 
         public DateTime? EndDate { get; set; }
 
-        // Construtor com parâmetros
+        // Propriedade de navegação para Book
+        public Book Book { get; set; }
+
         public ReadingProgress(int id, int userId, int bookId, int pagesRead, DateTime? startDate, DateTime? endDate)
         {
             Id = id;
@@ -35,7 +37,6 @@ namespace MyReading.API.Domain.Model
             EndDate = endDate;
         }
 
-        // Construtor padrão necessário para a desserialização do JSON
         public ReadingProgress() { }
     }
 }

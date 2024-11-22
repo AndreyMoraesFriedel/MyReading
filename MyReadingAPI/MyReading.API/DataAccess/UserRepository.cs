@@ -27,6 +27,13 @@ namespace MyReading.API.DataAccess
                     Photo = u.Photo,
                 }).ToList();
         }
+        public IEnumerable<Book> GetBooksByUser(int userId)
+        {
+            return _context.ReadingProgresses
+                .Where(rp => rp.UserId == userId)
+                .Select(rp => rp.Book) // Navega até o livro
+                .ToList();
+        }
 
         public User? GetById(int id)
         {

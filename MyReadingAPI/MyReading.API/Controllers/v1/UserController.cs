@@ -63,6 +63,19 @@ namespace MyReading.API.Controllers.v1
             return Ok(usersDTO);
         }
 
+        [HttpGet("{userId}/books")]
+        public IActionResult GetBooksByUser(int userId)
+        {
+            var books = _userRepository.GetBooksByUser(userId);
+
+            if (!books.Any())
+            {
+                return NotFound("Nenhum livro encontrado para este usuário.");
+            }
+
+            return Ok(books);
+        }
+
         //[Authorize]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)

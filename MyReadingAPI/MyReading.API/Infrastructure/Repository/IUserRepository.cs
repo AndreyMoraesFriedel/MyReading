@@ -7,6 +7,7 @@ namespace MyReading.API.Infrastructure.Repository
     {
         void Add(User user);
         List<UserDTO> Get(int pageNumber, int pageQuantity);
+        IEnumerable<Book> GetBooksByUser(int userId);
         User? GetById(int id);
         User Authenticate(string email, string password);
         void Update(User user);

@@ -12,7 +12,7 @@ using MyReading.API.Infrastructure;
 namespace MyReading.API.Migrations
 {
     [DbContext(typeof(MyReadingContext))]
-    [Migration("20241120143118_InitialMigration")]
+    [Migration("20241122011608_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -81,6 +81,10 @@ namespace MyReading.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
                     b.ToTable("reading_progress");
                 });
 
@@ -105,6 +109,8 @@ namespace MyReading.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("reading_streak");
                 });
@@ -136,6 +142,47 @@ namespace MyReading.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("MyReading.API.Domain.Model.ReadingProgress", b =>
+                {
+                    b.HasOne("MyReading.API.Domain.Model.Book", "Book")
+                        .WithMany("ReadingProgresses")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_ReadingProgress_Book");
+
+                    b.HasOne("MyReading.API.Domain.Model.User", null)
+                        .WithMany("ReadingProgresses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_ReadingProgress_User");
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("MyReading.API.Domain.Model.ReadingStreak", b =>
+                {
+                    b.HasOne("MyReading.API.Domain.Model.User", null)
+                        .WithMany("ReadingStreaks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_ReadingStreak_User");
+                });
+
+            modelBuilder.Entity("MyReading.API.Domain.Model.Book", b =>
+                {
+                    b.Navigation("ReadingProgresses");
+                });
+
+            modelBuilder.Entity("MyReading.API.Domain.Model.User", b =>
+                {
+                    b.Navigation("ReadingProgresses");
+
+                    b.Navigation("ReadingStreaks");
                 });
 #pragma warning restore 612, 618
         }
