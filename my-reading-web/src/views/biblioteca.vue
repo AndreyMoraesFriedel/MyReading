@@ -130,7 +130,7 @@ export default {
     title: 'Biblioteca',
   },
   created() {
-    const userId = this.$route.query.id;
+    const userId = localStorage.getItem('userId');
 
     // Recupera a streak do localStorage
     const storedStreak = localStorage.getItem('streakDays');
@@ -140,21 +140,20 @@ export default {
 
     // Se um id do usuário está disponível, busca a streak do backend
     if (userId) {
-      this.getStreak(userId);
+      this.obterStreakDoUsuario(userId);
     }
   },
   methods: {
     // Método para fazer a requisição ao backend
-    getStreak(userId) {
+    obterStreakDoUsuario(userId) {
       axios
-        .get(`/api/v1/reading-streak/total/${userId}`)
+        .get(`/api/v1/reading-streak/${userId}`)
         .then((response) => {
-          this.streakDays = response.data; // Armazena o valor da streak na variável
-          // Salva no localStorage
+          this.streakDays = response.data.lengthInDays;
           localStorage.setItem('streakDays', this.streakDays);
         })
         .catch((error) => {
-          console.error('Erro ao buscar a streak:', error);
+          console.error('Erro ao buscar a streak do usuário:', error);
         });
     },
     irParaPerfil() {

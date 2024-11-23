@@ -68,14 +68,12 @@ export default {
   methods: {
     async logar() {
       try {
-        // Verifica se os campos de email e senha estão preenchidos
         if (!this.email || !this.senha) {
           this.errorMessage = 'Preencha todos os campos.';
           alert(this.errorMessage);
           return;
         }
 
-        // Realiza a requisição POST para o endpoint de login da API
         const response = await axios.post('/api/v1.0/user/login', {
           email: this.email,
           password: this.senha,
@@ -83,13 +81,14 @@ export default {
 
         const user = response.data;
 
-        // Redireciona para a biblioteca após login bem-sucedido
-        this.$router.push({
-          path: '/biblioteca',
-          query: { id: user.id, name: user.name, photo: user.photo },
-        });
+        // Salva os dados no localStorage
+        localStorage.setItem('userId', user.id);
+        localStorage.setItem('userName', user.name);
+        localStorage.setItem('userPhoto', user.photo);
+
+        // Redireciona para a biblioteca
+        this.$router.push('/biblioteca');
       } catch (error) {
-        // Exibe mensagem caso o usuário não seja encontrado ou ocorra um erro na API
         if (error.response && error.response.status === 401) {
           this.errorMessage = 'Email ou senha inválidos.';
         } else {

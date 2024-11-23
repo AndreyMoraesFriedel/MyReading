@@ -67,18 +67,14 @@
           </div>
       </header>
       <main>
-        <!--FotoPerfil-->
+        <!-- Foto de Perfil -->
         <div>
-          <!--Circulo-->
+          <!-- Círculo -->
+          <div class="perfil-ellipse1"></div>
+          <!-- Foto -->
           <img
-            src="/external/ellipse12686-0nva-400h.png"
-            alt="Ellipse12686"
-            class="perfil-ellipse1"
-          />
-          <!--Foto-->
-          <img
-            src="/external/image12689-s0cb-300h.png"
-            alt="image12689"
+            :src="fotodousuario || '/external/default-profile.png'"
+            alt="Foto do Usuário"
             class="perfil-image1"
           />
         </div>
@@ -95,7 +91,7 @@
               alt="Customer2687"
               class="perfil-customer"
             />
-            <span class="perfil-text11">NOME DO USUÁRIO: seunome</span>
+            <span class="perfil-text11">NOME DO USUÁRIO: {{ nomedousuario }}</span>
           </div>
           <div> <!--TEMPO TOTAL DE LEITURA-->
             <img
@@ -103,7 +99,7 @@
               alt="Numbers2687"
               class="perfil-numbers"
             />
-            <span class="perfil-text14">TEMPO TOTAL DE LEITURA: 1344 horas</span>
+            <span class="perfil-text14">TEMPO TOTAL DE LEITURA: {{ tempototaldeleitura }}</span>
           </div>
           <div>
             <img
@@ -111,7 +107,7 @@
               alt="Schedule2688"
               class="perfil-schedule"
             />
-            <span class="perfil-text13">TEMPO DE OFENSIVA: 99 dias</span>
+            <span class="perfil-text13">TEMPO DE OFENSIVA: {{ streakDays }}</span>
           </div>
           <!--Editar Perfil-->
           <!--<div><img src="/external/pencil2688-onr-200w.png" alt="Pencil2688" class="perfil-pencil"/><span class="perfil-text12">EDITAR PERFIL</span></div> -->
@@ -137,37 +133,65 @@ export default {
   data() {
     return {
       streakDays: 0,
+      nomedousuario: ``,
+      tempototaldeleitura: 0,
+      fotodousuario: ''
     };
   },
   metaInfo: {
     title: 'Perfil',
   },
   created() {
-    const userId = this.$route.query.id;
-
-    // Recupera a streak do localStorage
-    const storedStreak = localStorage.getItem('streakDays');
-    if (storedStreak) {
-      this.streakDays = parseInt(storedStreak, 10);
-    }
-
-    // Se um id do usuário está disponível, busca a streak do backend
+    const userId = localStorage.getItem('userId'); // Obtém o userId do localStorage
     if (userId) {
-      this.getStreak(userId);
+      this.obterStreakDoUsuario(userId); // Busca streak do usuário
+      this.obterInformacoesDoUsuario(userId); // Busca informações do usuário     
+      this.obterFotoDoUsuario(userId);
+    } else {
+      console.error('Usuário não autenticado!');
+      this.$router.push('/'); // Redireciona para o login se não encontrar o ID
     }
   },
   methods: {
-    // Método para fazer a requisição ao backend
-    getStreak(userId) {
+    obterStreakDoUsuario(userId) {
       axios
-        .get(`/api/v1/reading-streak/total/${userId}`)
+        .get(`/api/v1/reading-streak/${userId}`)
         .then((response) => {
-          this.streakDays = response.data; // Armazena o valor da streak na variável
-          // Salva no localStorage
+          this.streakDays = response.data.lengthInDays;
           localStorage.setItem('streakDays', this.streakDays);
         })
         .catch((error) => {
-          console.error('Erro ao buscar a streak:', error);
+          console.error('Erro ao buscar a streak do usuário:', error);
+        });
+    },
+    obterInformacoesDoUsuario(userId) {
+      axios
+        .get(`/api/v1/user/${userId}`)
+        .then((response) => {
+          const { name, totalReadingTime} = response.data;
+          this.nomedousuario = name;
+          this.tempototaldeleitura = totalReadingTime;
+
+          // Armazena as informações no localStorage, caso necessário
+          localStorage.setItem('nomedousuario', name);
+          localStorage.setItem('tempototaldeleitura', totalReadingTime);
+        })
+        .catch((error) => {
+          console.error('Erro ao buscar informações do usuário:', error);
+        });
+    },
+    obterFotoDoUsuario(userId) {
+      axios
+        .get(`/api/v1/user/${userId}/download`, {
+          responseType: 'blob', // Recebe a foto como Blob
+        })
+        .then((response) => {
+          // Cria uma URL temporária para o Blob recebido
+          const fotoUrl = URL.createObjectURL(response.data);
+          this.fotodousuario = fotoUrl;
+        })
+        .catch((error) => {
+          console.error('Erro ao buscar a foto do usuário:', error);
         });
     },
     goToBiblioteca() {
@@ -182,7 +206,15 @@ export default {
     },
     */
     sair() {
-      this.$router.push('/'); // Supondo que a tela de login é onde o usuário é direcionado ao sair
+      // Limpa o localStorage
+      localStorage.removeItem('userId');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('userPhoto');
+      localStorage.removeItem('nomedousuario');
+      localStorage.removeItem('tempototaldeleitura');
+
+      // Redireciona para o login
+      this.$router.push('/');
     }
   }
 }
@@ -360,6 +392,15 @@ export default {
   border-bottom-left-radius: var(--dl-radius-radius-round);
   border-bottom-right-radius: var(--dl-radius-radius-round);
 }
+.perfil-image1 {
+  top: 209px;
+  left: 787px;
+  width: 350px;
+  height: 325px;
+  position: absolute;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
 .perfil-rectangle101 {
   top: 721px;
@@ -490,13 +531,6 @@ export default {
   position: absolute;
 }
   */
-.perfil-image1 {
-  top: 250px;
-  left: 831px;
-  width: 258px;
-  height: 254px;
-  position: absolute;
-}
 .perfil-quadrado-informativo{
   top: -121px;
   left: 8px;
