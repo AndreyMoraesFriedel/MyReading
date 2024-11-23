@@ -34,7 +34,7 @@ namespace MyReading.API.Controllers.v1
                 bookView.Capa.CopyTo(fileStream);
             }
 
-            var book = new Book(bookView.Id, bookView.Title, bookView.Author, filePath, bookView.Pages, bookView.DateRead);
+            var book = new Book(bookView.Id, bookView.Title, bookView.Author, filePath, bookView.Pages);
             _bookRepository.Add(book);
             return Ok();
         }
@@ -89,7 +89,6 @@ namespace MyReading.API.Controllers.v1
             existingBook.Title = bookView.Title;
             existingBook.Author = bookView.Author;
             existingBook.Pages = bookView.Pages;
-            existingBook.DateRead = bookView.DateRead;
 
             if (bookView.Capa != null)
             {

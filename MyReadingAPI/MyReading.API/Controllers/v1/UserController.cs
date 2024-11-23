@@ -122,6 +122,7 @@ namespace MyReading.API.Controllers.v1
             existingUser.Name = userView.Name;
             existingUser.Email = userView.Email;
             existingUser.Password = userView.Password;
+            existingUser.TotalReadingTime = userView.TotalReadingTime;
 
             if (userView.Photo != null)
             {

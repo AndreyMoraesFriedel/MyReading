@@ -25,6 +25,7 @@ namespace MyReading.API.DataAccess
                     Id = u.Id,
                     Name = u.Name,
                     Photo = u.Photo,
+                    TotalReadingTime = u.TotalReadingTime,
                 }).ToList();
         }
         public IEnumerable<Book> GetBooksByUser(int userId)

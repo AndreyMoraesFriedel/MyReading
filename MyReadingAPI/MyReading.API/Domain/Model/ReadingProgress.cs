@@ -17,24 +17,23 @@ namespace MyReading.API.Domain.Model
         [ForeignKey("book")]
         public int BookId { get; set; }
 
+        /*
         [Required]
         public int PagesRead { get; set; }
-
-        public DateTime? StartDate { get; set; }
-
-        public DateTime? EndDate { get; set; }
+        */
+        [Required]
+        public int TotalReadingTime { get; set; }
 
         // Propriedade de navegação para Book
         public Book Book { get; set; }
 
-        public ReadingProgress(int id, int userId, int bookId, int pagesRead, DateTime? startDate, DateTime? endDate)
+        public ReadingProgress(int id, int userId, int bookId, int totalReadingTime)
         {
             Id = id;
             UserId = userId;
             BookId = bookId;
-            PagesRead = pagesRead;
-            StartDate = startDate;
-            EndDate = endDate;
+            /*PagesRead = pagesRead;*/
+            TotalReadingTime = totalReadingTime;
         }
 
         public ReadingProgress() { }

@@ -21,6 +21,9 @@ namespace MyReading.API.Domain.Model
         [Required]
         public string Photo { get; set; }
 
+        [Required]
+        public int TotalReadingTime { get; set; }
+
         public User(int id, string name, string email, string password, string photo)
         {
             Id = id;
@@ -28,6 +31,7 @@ namespace MyReading.API.Domain.Model
             Email = email;
             Password = password;
             Photo = photo;
+            TotalReadingTime = 0;
 
             ReadingProgresses = new List<ReadingProgress>();
             ReadingStreaks = new List<ReadingStreak>();

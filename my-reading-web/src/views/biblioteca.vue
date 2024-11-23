@@ -179,7 +179,6 @@ export default {
         formData.append('Title', this.livro.nome);
         formData.append('Author', this.livro.autor);
         formData.append('Pages', this.livro.paginas);
-        formData.append('DateRead', new Date().toISOString()); 
         formData.append('Capa', this.livro.capa); 
 
         axios

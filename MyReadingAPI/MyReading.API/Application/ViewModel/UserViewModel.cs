@@ -18,5 +18,7 @@ namespace MyReading.API.Application.ViewModel
 
         [Required]
         public IFormFile? Photo { get; set; }
+
+        public int TotalReadingTime { get; set; }
     }
 }

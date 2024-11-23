@@ -27,8 +27,7 @@ namespace MyReading.API.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Capa = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Pages = table.Column<int>(type: "int", nullable: false),
-                    DateRead = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    Pages = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,7 +48,8 @@ namespace MyReading.API.Migrations
                     Password = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Photo = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TotalReadingTime = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,9 +65,7 @@ namespace MyReading.API.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     BookId = table.Column<int>(type: "int", nullable: false),
-                    PagesRead = table.Column<int>(type: "int", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    EndDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    TotalReadingTime = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

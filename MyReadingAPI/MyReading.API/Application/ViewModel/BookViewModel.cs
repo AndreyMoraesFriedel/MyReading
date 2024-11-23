@@ -17,7 +17,5 @@ namespace MyReading.API.Application.ViewModel
         public IFormFile? Capa { get; set; }
 
         public int Pages { get; set; }
-
-        public DateTime? DateRead { get; set; }
     }
 }

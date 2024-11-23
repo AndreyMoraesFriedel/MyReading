@@ -113,14 +113,8 @@
             />
             <span class="perfil-text13">TEMPO DE OFENSIVA: 99 dias</span>
           </div>
-          <div> <!--Editar Perfil-->
-            <img
-              src="/external/pencil2688-onr-200w.png"
-              alt="Pencil2688"
-              class="perfil-pencil"
-            />
-            <span class="perfil-text12">EDITAR PERFIL</span>
-          </div>
+          <!--Editar Perfil-->
+          <!--<div><img src="/external/pencil2688-onr-200w.png" alt="Pencil2688" class="perfil-pencil"/><span class="perfil-text12">EDITAR PERFIL</span></div> -->
           <div> <!--SAIR-->
             <img
               src="/external/emergencyexit2688-9g5e-200w.png"
@@ -407,6 +401,7 @@ export default {
   font-stretch: normal;
   text-decoration: none;
 }
+/*
 .perfil-text12 {
   top: 901px;
   left: 702px;
@@ -423,6 +418,7 @@ export default {
   font-stretch: normal;
   text-decoration: none;
 }
+  */
 .perfil-text13 {
   top: 854.583740234375px;
   left: 698.9999389648438px;
@@ -485,6 +481,7 @@ export default {
   height: 29px;
   position: absolute;
 }
+/*
 .perfil-pencil {
   top: 901px;
   left: 667px;
@@ -492,6 +489,7 @@ export default {
   height: 26px;
   position: absolute;
 }
+  */
 .perfil-image1 {
   top: 250px;
   left: 831px;

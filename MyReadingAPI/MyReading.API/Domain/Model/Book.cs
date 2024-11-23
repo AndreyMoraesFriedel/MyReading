@@ -20,16 +20,13 @@ namespace MyReading.API.Domain.Model
 
         public int Pages { get; set; }
 
-        public DateTime? DateRead { get; set; }
-
-        public Book(int id, string title, string author, string capa, int pages, DateTime? dateRead)
+        public Book(int id, string title, string author, string capa, int pages)
         {
             Id = id;
             Title = title;
             Author = author;
             Capa = capa;
             Pages = pages;
-            DateRead = dateRead;
 
             ReadingProgresses = new List<ReadingProgress>();
         }

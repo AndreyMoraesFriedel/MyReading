@@ -12,7 +12,7 @@ using MyReading.API.Infrastructure;
 namespace MyReading.API.Migrations
 {
     [DbContext(typeof(MyReadingContext))]
-    [Migration("20241122011608_InitialMigration")]
+    [Migration("20241123135950_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -41,9 +41,6 @@ namespace MyReading.API.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("DateRead")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<int>("Pages")
                         .HasColumnType("int");
 
@@ -67,14 +64,8 @@ namespace MyReading.API.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("PagesRead")
+                    b.Property<int>("TotalReadingTime")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -138,6 +129,9 @@ namespace MyReading.API.Migrations
                     b.Property<string>("Photo")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("TotalReadingTime")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

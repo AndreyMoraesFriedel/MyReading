@@ -31,9 +31,7 @@ namespace MyReading.API.Controllers.v1
                 progressView.Id,
                 progressView.UserId,
                 progressView.BookId,
-                progressView.PagesRead,
-                progressView.StartDate,
-                progressView.EndDate
+                progressView.TotalReadingTime
             );
             _readingProgressRepository.Add(progress);
             return Ok();
@@ -72,9 +70,7 @@ namespace MyReading.API.Controllers.v1
                 return NotFound();
             }
 
-            existingProgress.PagesRead = progressView.PagesRead;
-            existingProgress.StartDate = progressView.StartDate;
-            existingProgress.EndDate = progressView.EndDate;
+            existingProgress.TotalReadingTime = progressView.TotalReadingTime;
 
             _readingProgressRepository.Update(existingProgress);
             var updatedProgressDTO = _mapper.Map<ReadingProgressDTO>(existingProgress);

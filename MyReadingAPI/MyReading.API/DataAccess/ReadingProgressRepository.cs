@@ -25,9 +25,7 @@ namespace MyReading.API.DataAccess
                     Id = rp.Id,
                     UserId = rp.UserId,
                     BookId = rp.BookId,
-                    PagesRead = rp.PagesRead,
-                    StartDate = rp.StartDate,
-                    EndDate = rp.EndDate,
+                    TotalReadingTime = rp.TotalReadingTime,
                 }).ToList();
         }
 
