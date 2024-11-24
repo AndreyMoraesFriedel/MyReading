@@ -64,6 +64,8 @@
       <!--PARTE DEBAIXO-->
       <main>
         <span class="biblioteca-text3">Minha Lista de Livros:</span>
+
+        <!-- Botão de Adicionar Livro -->
         <button style="cursor: pointer;" @click="abrirFormulario">
           <img
             src="/external/rectangle48210-tewv.svg"
@@ -83,6 +85,15 @@
           <span class="biblioteca-text9">Adicione um Livro</span>
         </button>
 
+         <!-- Exibir as capas dos livros -->
+          <div class="livros-container">
+            <div v-for="livro in livrosDoUsuario" :key="livro.id" class="livro">
+              <img :src="livro.capaUrl" :alt="livro.title" class="livro-capa" />
+              <p class="livro-title">{{ livro.title }}</p>
+            </div>
+          </div>
+
+        <!-- Formulário para Adicionar Livro -->
         <div v-if="exibirFormulario" class="biblioteca-form-popup">
           <h2>Cadastro de Livro</h2>
           <form @submit.prevent="cadastrarLivro">
@@ -117,13 +128,14 @@ export default {
     return {
       exibirFormulario: false,
       mensagemConfirmacao: false,
+      livrosDoUsuario: [], // Lista de livros do usuário
       livro: {
         nome: '',
         autor: '',
         paginas: '',
         capa: null,
       },
-      streakDays: 0, // Variável para armazenar o valor da streak
+      streakDays: 0,
     };
   },
   metaInfo: {
@@ -131,20 +143,12 @@ export default {
   },
   created() {
     const userId = localStorage.getItem('userId');
-
-    // Recupera a streak do localStorage
-    const storedStreak = localStorage.getItem('streakDays');
-    if (storedStreak) {
-      this.streakDays = parseInt(storedStreak, 10);
-    }
-
-    // Se um id do usuário está disponível, busca a streak do backend
     if (userId) {
       this.obterStreakDoUsuario(userId);
+      this.carregarLivrosDoUsuario(userId); // Carregar os livros ao abrir a página
     }
   },
   methods: {
-    // Método para fazer a requisição ao backend
     obterStreakDoUsuario(userId) {
       axios
         .get(`/api/v1/reading-streak/${userId}`)
@@ -155,6 +159,36 @@ export default {
         .catch((error) => {
           console.error('Erro ao buscar a streak do usuário:', error);
         });
+    },
+    async carregarLivrosDoUsuario(userId) {
+      try {
+        const response = await axios.get(`/api/v1/user/${userId}/books`);
+        const livros = response.data;
+
+        // Obtem as URLs de capa para cada livro
+        this.livrosDoUsuario = await Promise.all(
+          livros.map(async (livro) => {
+            const capaUrl = await this.obterUrlCapa(livro.id);
+            return {
+              ...livro,
+              capaUrl,
+            };
+          })
+        );
+      } catch (error) {
+        console.error('Erro ao carregar livros do usuário:', error);
+      }
+    },
+    async obterUrlCapa(livroId) {
+      try {
+        const response = await axios.get(`/api/v1/book/${livroId}/download`, {
+          responseType: 'blob',
+        });
+        return URL.createObjectURL(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar a capa do livro:', error);
+        return null; // Retorna nulo em caso de erro
+      }
     },
     irParaPerfil() {
       this.$router.push('/Perfil');
@@ -171,25 +205,33 @@ export default {
       this.mensagemConfirmacao = false;
       this.resetarFormulario();
     },
-    cadastrarLivro() {
-      // Verificar se os campos obrigatórios foram preenchidos
+    async cadastrarLivro() {
       if (this.livro.nome && this.livro.autor && this.livro.paginas && this.livro.capa) {
-        const formData = new FormData();
-        formData.append('Title', this.livro.nome);
-        formData.append('Author', this.livro.autor);
-        formData.append('Pages', this.livro.paginas);
-        formData.append('Capa', this.livro.capa); 
+        try {
+          const formData = new FormData();
+          formData.append('Title', this.livro.nome);
+          formData.append('Author', this.livro.autor);
+          formData.append('Pages', this.livro.paginas);
+          formData.append('Capa', this.livro.capa);
 
-        axios
-          .post('/api/v1/book', formData)
-          .then(() => {
-            this.mensagemConfirmacao = true;
-            this.resetarFormulario();
-          })
-          .catch((error) => {
-            console.error('Erro ao cadastrar livro:', error);
-            alert('Erro ao cadastrar o livro. Tente novamente.');
+          const response = await axios.post('/api/v1/book', formData);
+          const bookId = response.data.id;
+          const userIdInt = Number(localStorage.getItem('userId'));
+
+          await axios.post(`/api/v1/reading-progress`, {
+            userId: userIdInt,
+            bookId: bookId,
           });
+
+          this.mensagemConfirmacao = true;
+          this.resetarFormulario();
+
+          // Atualizar lista de livros após cadastro
+          this.carregarLivrosDoUsuario(userIdInt);
+        } catch (error) {
+          console.error('Erro ao cadastrar livro ou iniciar progresso:', error.response || error.message);
+          alert('Erro ao cadastrar o livro ou iniciar o progresso. Tente novamente.');
+        }
       } else {
         alert('Por favor, preencha todos os campos obrigatórios.');
       }
@@ -509,5 +551,36 @@ input[type="file"] {
 #biblioteca-confirmationMessage {
     color: green;
     font-weight: bold;
+}
+.livros-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 100px;
+  margin-top: 20px;
+  position: absolute;
+  left: 317px;
+  top: 240px;
+}
+
+.livro {
+  text-align: center;
+  max-width: 150px;
+}
+
+.livro-capa {
+  width: 200px;
+  height: 247px;
+  object-fit: cover; /* Para cortar e ajustar a imagem */
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+  border: 10px solid black;
+}
+
+.livro-title {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
 }
 </style>

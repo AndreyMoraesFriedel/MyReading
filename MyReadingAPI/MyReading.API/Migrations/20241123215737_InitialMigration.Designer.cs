@@ -12,7 +12,7 @@ using MyReading.API.Infrastructure;
 namespace MyReading.API.Migrations
 {
     [DbContext(typeof(MyReadingContext))]
-    [Migration("20241123162710_InitialMigration")]
+    [Migration("20241123215737_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

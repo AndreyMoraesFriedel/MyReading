@@ -36,7 +36,11 @@ namespace MyReading.API.Controllers.v1
 
             var book = new Book(bookView.Id, bookView.Title, bookView.Author, filePath, bookView.Pages);
             _bookRepository.Add(book);
-            return Ok();
+            return Ok(
+                new
+                {
+                    id = book.Id
+                });
         }
 
         //[Authorize]

@@ -84,6 +84,13 @@ export default {
       streakDays: 0, // Adiciona o valor da streak
     };
   },
+  created() {
+    const userId = localStorage.getItem('userId');
+    // Se um id do usuário está disponível, busca a streak do backend
+    if (userId) {
+      this.obterStreakDoUsuario(userId);
+    }
+  },
   computed: {
     formattedTime() {
       const hrs = String(Math.floor(this.seconds / 3600)).padStart(2, "0");
@@ -93,6 +100,18 @@ export default {
     },
   },
   methods: {
+    // Método para fazer a requisição ao backend
+    obterStreakDoUsuario(userId) {
+      axios
+        .get(`/api/v1/reading-streak/${userId}`)
+        .then((response) => {
+          this.streakDays = response.data.lengthInDays;
+          localStorage.setItem('streakDays', this.streakDays);
+        })
+        .catch((error) => {
+          console.error('Erro ao buscar a streak do usuário:', error);
+        });
+    },
     goToBiblioteca() {
       this.$router.push("/biblioteca");
     },
@@ -185,7 +204,7 @@ export default {
   mounted() {
     this.gerarFraseMotivadora();
     this.carregarLivros(); // Carrega os livros ao montar o componente
-    this.streakDays = parseInt(localStorage.getItem('streakDays')) || 0;
+    this.streakDays = obterStreakDoUsuario(userId);
   },
 };
 </script>

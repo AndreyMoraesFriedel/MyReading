@@ -27,13 +27,13 @@ namespace MyReading.API.Domain.Model
         // Propriedade de navegação para Book
         public Book Book { get; set; }
 
-        public ReadingProgress(int id, int userId, int bookId, int totalReadingTime)
+        public ReadingProgress(int id, int userId, int bookId)
         {
             Id = id;
             UserId = userId;
             BookId = bookId;
             /*PagesRead = pagesRead;*/
-            TotalReadingTime = totalReadingTime;
+            TotalReadingTime = 0;
         }
 
         public ReadingProgress() { }

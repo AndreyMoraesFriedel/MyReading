@@ -30,8 +30,7 @@ namespace MyReading.API.Controllers.v1
             var progress = new ReadingProgress(
                 progressView.Id,
                 progressView.UserId,
-                progressView.BookId,
-                progressView.TotalReadingTime
+                progressView.BookId
             );
             _readingProgressRepository.Add(progress);
             return Ok();

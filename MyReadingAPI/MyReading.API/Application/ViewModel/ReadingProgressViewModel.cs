@@ -19,7 +19,6 @@ namespace MyReading.API.Application.ViewModel
         public int PagesRead { get; set; }
         */
 
-        [Required]
         public int TotalReadingTime { get; set; }
     }
 }
