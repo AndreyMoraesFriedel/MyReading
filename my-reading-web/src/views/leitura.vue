@@ -50,8 +50,11 @@
         <!-- SELEÇÃO DE LIVROS -->
         <select v-model="livroSelecionado" class="leitura1-select">
           <option disabled value="">Selecionar livro</option>
-          <option v-for="livro in livros" :key="livro.id" :value="livro.id">{{ livro.titulo }}</option>
+          <option v-for="livro in livrosDoUsuario" :key="livro.id" :value="livro.id">{{ livro.title }}</option>
         </select>
+
+        <!-- Exibe a capa do livro selecionado -->
+        <img :src="livrosDoUsuario.find(l => l.id === livroSelecionado)?.capaUrl" class="leitura1-frame3"/>
 
         <div class="leitura-timer">
           <div id="timer">{{ formattedTime }}</div>
@@ -63,25 +66,32 @@
 
         <span class="leitura1-text19">{{ fraseMotivacional }}</span>
         <img src="/external/vector2614-od1c.svg" alt="Vector2614" class="leitura1-vector" />
-        <div class="leitura1-frame3"></div>
       </main>
     </div>
   </div>
 </template>
 
 <script>
+import axios from '../http-common';
+
 export default {
   name: "Leitura",
   data() {
     return {
-      livros: [], // Lista de livros para ser preenchida do banco de dados
-      livroSelecionado: "", // Livro selecionado pelo usuário
+      livrosDoUsuario: [],
+      livro: {
+        nome: '',
+        autor: '',
+        paginas: '',
+        capa: null,
+      }, 
+      livroSelecionado: "", 
       fraseMotivacional: "Frase Motivadora",
       timerInterval: null,
       seconds: 0,
       isPaused: false,
       timerStatus: "Timer zerado",
-      streakDays: 0, // Adiciona o valor da streak
+      streakDays: 0, 
     };
   },
   created() {
@@ -89,6 +99,7 @@ export default {
     // Se um id do usuário está disponível, busca a streak do backend
     if (userId) {
       this.obterStreakDoUsuario(userId);
+      this.carregarLivrosDoUsuario(userId);
     }
   },
   computed: {
@@ -100,12 +111,11 @@ export default {
     },
   },
   methods: {
-    // Método para fazer a requisição ao backend
     obterStreakDoUsuario(userId) {
       axios
-        .get(`/api/v1/reading-streak/${userId}`)
+        .get(`/api/v1/reading-streak/total/${userId}`)
         .then((response) => {
-          this.streakDays = response.data.lengthInDays;
+          this.streakDays = response.data;
           localStorage.setItem('streakDays', this.streakDays);
         })
         .catch((error) => {
@@ -168,13 +178,35 @@ export default {
     updateTimer() {
       this.seconds++;
     },
-    carregarLivros() {
-      // Exemplo de dados estáticos; futuramente, utilize uma chamada à API/banco de dados para preencher essa lista
-      this.livros = [
-        { id: 1, titulo: "O Senhor dos Anéis" },
-        { id: 2, titulo: "Dom Casmurro" },
-        { id: 3, titulo: "O Alquimista" },
-      ];
+    async carregarLivrosDoUsuario(userId) {
+      try {
+        const response = await axios.get(`/api/v1/user/${userId}/books`);
+        const livros = response.data;
+
+        // Obtem as URLs de capa para cada livro
+        this.livrosDoUsuario = await Promise.all(
+          livros.map(async (livro) => {
+            const capaUrl = await this.obterUrlCapa(livro.id);
+            return {
+              ...livro,
+              capaUrl,
+            };
+          })
+        );
+      } catch (error) {
+        console.error('Erro ao carregar livros do usuário:', error);
+      }
+    },
+    async obterUrlCapa(livroId) {
+      try {
+        const response = await axios.get(`/api/v1/book/${livroId}/download`, {
+          responseType: 'blob',
+        });
+        return URL.createObjectURL(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar a capa do livro:', error);
+        return null; 
+      }
     },
     updateStreak() {
       const lastDate = localStorage.getItem('lastReadingDate');
@@ -203,8 +235,7 @@ export default {
   },
   mounted() {
     this.gerarFraseMotivadora();
-    this.carregarLivros(); // Carrega os livros ao montar o componente
-    this.streakDays = obterStreakDoUsuario(userId);
+    this.carregarLivrosDoUsuario(userId) // Carrega os livros ao montar o componente
   },
 };
 </script>
@@ -396,16 +427,19 @@ export default {
   position: absolute;
 }
 .leitura1-frame3 {
-  top: 317px;
-  left: 822px;
-  width: 277px;
-  height: 246px;
+  top: 414px;
+  left: 778px;
+  width: 200px;
+  height: 247px;
   display: flex;
   overflow: hidden;
   position: absolute;
   align-items: flex-start;
   flex-shrink: 0;
   background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+  border: 10px solid black;
 }
 .leitura1-select {
   top: 230px;
@@ -418,30 +452,31 @@ export default {
   font-size: 16px;
 }
 .leitura-timer{
-  top: 646px;
-  left: 732px;
-  width: 638px;
+  top: 270px;
+  left: 752px;
+  width: 643px;
   height: 574px;
   position: absolute;
   flex-direction: column;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 #timer {
-  font-size: 2em;
+  font-size: 5em;
   margin-bottom: 20px;
   color: #333;
   position: absolute;
-  left: 156px;
-  top: -66px;
+  left: 40px;
+  top: 28px;
 }
 #status {
   font-size: 1.2em;
   margin-bottom: 20px;
   color: #ececec;
   position: absolute;
-  left: 166px;
-  top: -26px;
+  left: 256px;
+  top: 144px;
 }
 
 #startBtn,

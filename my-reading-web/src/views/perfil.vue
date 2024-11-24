@@ -155,9 +155,9 @@ export default {
   methods: {
     obterStreakDoUsuario(userId) {
       axios
-        .get(`/api/v1/reading-streak/${userId}`)
+        .get(`/api/v1/reading-streak/total/${userId}`)
         .then((response) => {
-          this.streakDays = response.data.lengthInDays;
+          this.streakDays = response.data;
           localStorage.setItem('streakDays', this.streakDays);
         })
         .catch((error) => {

@@ -151,9 +151,9 @@ export default {
   methods: {
     obterStreakDoUsuario(userId) {
       axios
-        .get(`/api/v1/reading-streak/${userId}`)
+        .get(`/api/v1/reading-streak/total/${userId}`)
         .then((response) => {
-          this.streakDays = response.data.lengthInDays;
+          this.streakDays = response.data;
           localStorage.setItem('streakDays', this.streakDays);
         })
         .catch((error) => {
@@ -558,7 +558,7 @@ input[type="file"] {
   gap: 100px;
   margin-top: 20px;
   position: absolute;
-  left: 317px;
+  left: 330px;
   top: 240px;
 }
 
