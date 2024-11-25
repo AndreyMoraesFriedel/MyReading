@@ -24,8 +24,6 @@ namespace MyReading.API.DataAccess
                 {
                     Id = rs.Id,
                     UserId = rs.UserId,
-                    StartDate = rs.StartDate,
-                    EndDate = rs.EndDate,
                     LengthInDays = rs.LengthInDays,
                 }).ToList();
         }
@@ -45,6 +43,15 @@ namespace MyReading.API.DataAccess
         {
             _context.ReadingStreaks.Update(readingStreak);
             _context.SaveChanges();
+        }
+        public void UpdateLengthInDays(int id, int lengthInDays)
+        {
+            var readingStreak = _context.ReadingStreaks.Find(id);
+            if (readingStreak != null)
+            {
+                readingStreak.LengthInDays = lengthInDays;
+                _context.SaveChanges();
+            }
         }
 
         public void Delete(int id)

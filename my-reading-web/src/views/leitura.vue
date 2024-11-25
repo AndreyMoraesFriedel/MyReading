@@ -96,6 +96,7 @@ export default {
   },
   created() {
     const userId = localStorage.getItem('userId');
+    this.gerarFraseMotivadora();
     // Se um id do usuário está disponível, busca a streak do backend
     if (userId) {
       this.obterStreakDoUsuario(userId);
@@ -121,62 +122,6 @@ export default {
         .catch((error) => {
           console.error('Erro ao buscar a streak do usuário:', error);
         });
-    },
-    goToBiblioteca() {
-      this.$router.push("/biblioteca");
-    },
-    goToPerfil() {
-      this.$router.push("/perfil");
-    },
-    gerarFraseMotivadora() {
-      const frases = [
-        `"A leitura é para a mente o que o exercício é para o corpo." — Joseph Addison`,
-        `"Um livro é um sonho que você segura em suas mãos." — Neil Gaiman`,
-        `"Ler é viajar sem sair do lugar."`,
-        `"A leitura engrandece a alma." — Voltaire`,
-        `"Um leitor vive mil vidas antes de morrer." — George R.R. Martin`,
-        `"A leitura de um bom livro é um diálogo incessante: o livro fala e a alma responde." — André Maurois`,
-        `"Cada livro é um mundo à espera de ser descoberto."`,
-        `"Livros são amigos silenciosos e fiéis." — Confúcio`,
-        `"A leitura nos dá um lugar para ir quando temos que ficar onde estamos." — Mason Cooley`,
-        `"O livro é um mestre que fala, mas não responde." — Platão`,
-      ];
-      this.fraseMotivacional = frases[Math.floor(Math.random() * frases.length)];
-    },
-    startTimer() {
-      if (this.livroSelecionado) {
-        alert(`Iniciando leitura do livro ID: ${this.livroSelecionado}`);
-        if (!this.timerInterval) {
-          this.timerInterval = setInterval(this.updateTimer, 1000);
-          this.timerStatus = "Em andamento";
-          this.isPaused = false;
-        }
-      } else {
-        alert("Por favor, selecione um livro.");
-      }
-    },
-    togglePause() {
-      if (this.timerInterval) {
-        clearInterval(this.timerInterval);
-        this.timerInterval = null;
-        this.isPaused = true;
-        this.timerStatus = "Timer pausado";
-      } else if (this.isPaused) {
-        this.startTimer(); // Reinicia o timer
-      }
-    },
-    finalizeTimer() {
-      if (this.timerInterval) {
-        clearInterval(this.timerInterval);
-        this.timerInterval = null;
-      }
-      alert(`Timer finalizado. Tempo total: ${this.formattedTime}`);
-      this.timerStatus = "Timer zerado";
-      this.seconds = 0;
-      this.updateStreak(); // Atualiza a streak após finalizar o timer
-    },
-    updateTimer() {
-      this.seconds++;
     },
     async carregarLivrosDoUsuario(userId) {
       try {
@@ -208,34 +153,107 @@ export default {
         return null; 
       }
     },
-    updateStreak() {
-      const lastDate = localStorage.getItem('lastReadingDate');
-      const today = new Date().toISOString().split('T')[0];
-
-      if (lastDate) {
-        const lastReading = new Date(lastDate);
-        const difference = (new Date(today) - lastReading) / (1000 * 60 * 60 * 24);
-
-        if (difference === 1) {
-          // Leitura foi feita no dia anterior, incrementa a streak
-          this.streakDays = parseInt(localStorage.getItem('streakDays')) + 1;
-        } else if (difference > 1) {
-          // Passaram-se mais de um dia, reseta a streak
-          this.streakDays = 1;
+    gerarFraseMotivadora() {
+      const frases = [
+        `"A leitura é para a mente o que o exercício é para o corpo." — Joseph Addison`,
+        `"Um livro é um sonho que você segura em suas mãos." — Neil Gaiman`,
+        `"Ler é viajar sem sair do lugar."`,
+        `"A leitura engrandece a alma." — Voltaire`,
+        `"Um leitor vive mil vidas antes de morrer." — George R.R. Martin`,
+        `"A leitura de um bom livro é um diálogo incessante: o livro fala e a alma responde." — André Maurois`,
+        `"Cada livro é um mundo à espera de ser descoberto."`,
+        `"Livros são amigos silenciosos e fiéis." — Confúcio`,
+        `"A leitura nos dá um lugar para ir quando temos que ficar onde estamos." — Mason Cooley`,
+        `"O livro é um mestre que fala, mas não responde." — Platão`,
+      ];
+      this.fraseMotivacional = frases[Math.floor(Math.random() * frases.length)];
+    },
+    startTimer() {
+      if (this.livroSelecionado) {
+        if (!this.timerInterval) {
+          this.timerInterval = setInterval(this.updateTimer, 1000);
+          this.timerStatus = "Em andamento";
+          this.isPaused = false;
         }
       } else {
-        // Primeira leitura, inicia a streak
-        this.streakDays = 1;
+        alert("Por favor, selecione um livro.");
+      }
+    },
+    updateTimer() {
+      this.seconds++;
+    },
+    togglePause() {
+      if (this.timerInterval) {
+        clearInterval(this.timerInterval);
+        this.timerInterval = null;
+        this.isPaused = true;
+        this.timerStatus = "Timer pausado";
+      } else if (this.isPaused) {
+        this.startTimer();
+      }
+    },
+    finalizeTimer() {
+      if (this.timerInterval) {
+        clearInterval(this.timerInterval);
+        this.timerInterval = null;
+      }
+      alert(`Timer finalizado. Tempo total: ${this.formattedTime}`);
+
+      const userId = localStorage.getItem('userId');
+      const timeToAdd = Math.floor(this.seconds / 60); // Converte segundos para minutos
+
+      if (this.livroSelecionado && userId) {
+        this.acrescentarTempoNoLivro(userId, this.livroSelecionado, timeToAdd);
+        this.acrescentarTempoTotal(userId, timeToAdd);
+        this.updateStreak(userId);
+      } else {
+        console.error("Erro: Livro ou usuário não selecionado.");
       }
 
-      // Salva o valor atualizado da streak e a data de hoje
-      localStorage.setItem('streakDays', this.streakDays);
-      localStorage.setItem('lastReadingDate', today);
+      // Reseta o timer
+      this.timerStatus = "Timer zerado";
+      this.seconds = 0;
     },
-  },
-  mounted() {
-    this.gerarFraseMotivadora();
-    this.carregarLivrosDoUsuario(userId) // Carrega os livros ao montar o componente
+    async updateStreak(userId) {
+      try {
+        //const today = new Date().toISOString().split('T')[0];
+        const response = await axios.put(`/api/v1/reading-streak/${userId}/length-in-days`);
+        this.streakDays = response.data.lengthInDays;
+        console.log("Streak atualizado com sucesso.");
+      } catch (error) {
+        console.error("Erro ao atualizar a streak:", error);
+      }
+    },
+    async acrescentarTempoNoLivro(userId, bookId, timeToAdd) {
+      try {
+        await axios.put(
+          `/api/v1/reading-progress/${userId}/book/${bookId}/increment-time`,
+          null, // Sem corpo na requisição
+          { params: { timeToAdd } } // Parâmetro dinâmico
+        );
+        console.log(`Tempo (${timeToAdd} minutos) adicionado ao progresso do livro.`);
+      } catch (error) {
+        console.error("Erro ao atualizar tempo do livro:", error);
+      }
+    },
+    async acrescentarTempoTotal(userId, timeToAdd) {
+      try {
+        await axios.put(
+          `/api/v1/user/${userId}/add-reading-time`,
+          null, // Sem corpo na requisição
+          { params: { timeToAdd } } // Parâmetro dinâmico
+        );
+        console.log(`Tempo total (${timeToAdd} minutos) atualizado para o usuário.`);
+      } catch (error) {
+        console.error("Erro ao atualizar tempo total do usuário:", error);
+      }
+    },
+    goToBiblioteca() {
+      this.$router.push("/biblioteca");
+    },
+    goToPerfil() {
+      this.$router.push("/perfil");
+    },
   },
 };
 </script>

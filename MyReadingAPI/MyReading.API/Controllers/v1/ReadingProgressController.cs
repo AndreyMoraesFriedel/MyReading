@@ -76,6 +76,21 @@ namespace MyReading.API.Controllers.v1
             return Ok(updatedProgressDTO);
         }
 
+        [HttpPut("{userId}/book/{bookId}/increment-time")]
+        public IActionResult IncrementReadingTime(int userId, int bookId, [FromQuery] int timeToAdd)
+        {
+            try
+            {
+                _readingProgressRepository.IncrementReadingTime(userId, bookId, timeToAdd);
+                return Ok(new { message = "Tempo de leitura incrementado com sucesso." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
+
         //[Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)

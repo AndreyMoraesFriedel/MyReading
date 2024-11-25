@@ -59,6 +59,21 @@ namespace MyReading.API.DataAccess
             _context.SaveChanges();
         }
 
+        public void IncrementTotalReadingTime(int userId, int timeToAdd)
+        {
+            var user = _context.Users.Find(userId);
+
+            if (user != null)
+            {
+                user.TotalReadingTime += timeToAdd;
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Usuário não encontrado.");
+            }
+        }
+
         public void Delete(int id)
         {
             var user = _context.Users.Find(id);

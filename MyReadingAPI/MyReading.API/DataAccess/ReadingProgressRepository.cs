@@ -40,6 +40,23 @@ namespace MyReading.API.DataAccess
             _context.SaveChanges();
         }
 
+        public void IncrementReadingTime(int userId, int bookId, int timeToAdd)
+        {
+            var readingProgress = _context.ReadingProgresses
+                .FirstOrDefault(rp => rp.UserId == userId && rp.BookId == bookId);
+
+            if (readingProgress != null)
+            {
+                readingProgress.TotalReadingTime += timeToAdd;
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Progresso de leitura não encontrado para este usuário e livro.");
+            }
+        }
+
+
         public void Delete(int id)
         {
             var readingProgress = _context.ReadingProgresses.Find(id);

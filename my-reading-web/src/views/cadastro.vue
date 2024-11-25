@@ -95,11 +95,18 @@ export default {
 
       try {
         // Enviar os dados para a API
-        await axios.post('/api/v1.0/user', formData, {
+        const response = await axios.post('/api/v1.0/user', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
+
+        const userId = response.data.id;
+
+        await axios.post(`/api/v1/reading-streak`, {
+            userId: userId,
+          });
+
         alert('Usuário cadastrado com sucesso!');
         this.$router.push('/'); // Redirecionar após o cadastro
       } catch (error) {

@@ -11,6 +11,7 @@ namespace MyReading.API.Infrastructure.Repository
         User? GetById(int id);
         User Authenticate(string email, string password);
         void Update(User user);
+        void IncrementTotalReadingTime(int userId, int timeToAdd);
         void Delete(int id);
     }
 }

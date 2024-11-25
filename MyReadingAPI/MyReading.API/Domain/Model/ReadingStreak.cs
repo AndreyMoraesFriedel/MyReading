@@ -13,21 +13,14 @@ namespace MyReading.API.Domain.Model
         [ForeignKey("user")]
         public int UserId { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime? EndDate { get; set; }
-
-        [Required]
         public int LengthInDays { get; set; }
 
         // Construtor com parâmetros
-        public ReadingStreak(int id, int userId, DateTime startDate, DateTime? endDate, int lengthInDays)
+        public ReadingStreak(int id, int userId)
         {
             Id = id;
             UserId = userId;
-            StartDate = startDate;
-            EndDate = endDate;
-            LengthInDays = lengthInDays;
+            LengthInDays = 0;
         }
 
         // Construtor padrão necessário para a desserialização do JSON

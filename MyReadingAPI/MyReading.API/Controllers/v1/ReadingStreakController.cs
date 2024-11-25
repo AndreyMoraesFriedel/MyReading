@@ -29,10 +29,7 @@ namespace MyReading.API.Controllers.v1
         {
             var streak = new ReadingStreak(
                 streakView.Id,
-                streakView.UserId,
-                streakView.StartDate,
-                streakView.EndDate,
-                streakView.LengthInDays
+                streakView.UserId
             );
             _readingStreakRepository.Add(streak);
             return Ok();
@@ -83,14 +80,28 @@ namespace MyReading.API.Controllers.v1
                 return NotFound();
             }
 
-            existingStreak.StartDate = streakView.StartDate;
-            existingStreak.EndDate = streakView.EndDate;
             existingStreak.LengthInDays = streakView.LengthInDays;
 
             _readingStreakRepository.Update(existingStreak);
             var updatedStreakDTO = _mapper.Map<ReadingStreakDTO>(existingStreak);
             return Ok(updatedStreakDTO);
         }
+
+        [HttpPut("{id}/length-in-days")]
+        public IActionResult UpdateLengthInDays(int id)
+        {
+            var existingStreak = _readingStreakRepository.GetById(id);
+            if (existingStreak == null)
+            {
+                return NotFound();
+            }
+
+            existingStreak.LengthInDays += 1;
+
+            _readingStreakRepository.UpdateLengthInDays(id, existingStreak.LengthInDays);
+            return Ok(new { Id = id, lengthInDays = existingStreak.LengthInDays });
+        }
+
 
         //[Authorize]
         [HttpDelete("{id}")]

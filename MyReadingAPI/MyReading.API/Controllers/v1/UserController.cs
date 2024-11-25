@@ -37,7 +37,10 @@ namespace MyReading.API.Controllers.v1
 
             var user = new User(userView.Id, userView.Name, userView.Email, hashedPassword, filePath);
             _userRepository.Add(user);
-            return Ok();
+            return Ok(new
+            {
+                id = user.Id
+            });
         }
 
         //[Authorize]
@@ -143,6 +146,27 @@ namespace MyReading.API.Controllers.v1
             var updatedUserDTO = _mapper.Map<UserDTO>(existingUser);
             return Ok(updatedUserDTO);
         }
+
+        [HttpPut("{userId}/add-reading-time")]
+        public IActionResult AddReadingTime(int userId, [FromQuery] int timeToAdd)
+        {
+            var user = _userRepository.GetById(userId);
+            if (user == null)
+            {
+                return NotFound("Usuário não encontrado.");
+            }
+
+            user.TotalReadingTime += timeToAdd;
+
+            _userRepository.Update(user);
+
+            return Ok(new
+            {
+                message = "Tempo total de leitura atualizado com sucesso.",
+                totalReadingTime = user.TotalReadingTime
+            });
+        }
+
 
         //[Authorize]
         [HttpDelete("{id}")]

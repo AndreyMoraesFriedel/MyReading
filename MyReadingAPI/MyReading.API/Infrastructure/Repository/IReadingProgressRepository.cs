@@ -11,6 +11,7 @@ namespace MyReading.API.Infrastructure.Repository
         List<ReadingProgressDTO> Get(int pageNumber, int pageQuantity);
         ReadingProgress? GetById(int id);
         void Update(ReadingProgress progress);
+        void IncrementReadingTime(int userId, int bookId, int timeToAdd);
         void Delete(int id);
     }
 }

@@ -10,6 +10,7 @@ namespace MyReading.API.Infrastructure.Repository
         ReadingStreak? GetById(int id);
         List<ReadingStreak> GetByUserId(int userId);
         void Update(ReadingStreak streak);
+        void UpdateLengthInDays(int id, int lengthInDays);
         void Delete(int id);
     }
 }
