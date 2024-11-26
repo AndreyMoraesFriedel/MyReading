@@ -44,7 +44,6 @@ namespace MyReading.API.Controllers.v1
             return Ok(streakDTOs);
         }
 
-        //[Authorize]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -57,6 +56,7 @@ namespace MyReading.API.Controllers.v1
             var streakDTO = _mapper.Map<ReadingStreakDTO>(streak);
             return Ok(streakDTO);
         }
+
 
         [HttpGet("total/{userId}")]
         public IActionResult GetTotalStreak(int userId)
@@ -96,10 +96,14 @@ namespace MyReading.API.Controllers.v1
                 return NotFound();
             }
 
-            existingStreak.LengthInDays += 1;
-
-            _readingStreakRepository.UpdateLengthInDays(id, existingStreak.LengthInDays);
-            return Ok(new { Id = id, lengthInDays = existingStreak.LengthInDays });
+            existingStreak.LengthInDays += 1; 
+            _readingStreakRepository.UpdateLengthInDays(id, existingStreak.LengthInDays); 
+            return Ok(new
+            {
+                Id = id,
+                lengthInDays = existingStreak.LengthInDays,
+                LastStreak = DateTime.UtcNow 
+            });
         }
 
 

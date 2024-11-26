@@ -25,6 +25,7 @@ namespace MyReading.API.DataAccess
                     Id = rs.Id,
                     UserId = rs.UserId,
                     LengthInDays = rs.LengthInDays,
+                    LastStreak = rs.LastStreak,
                 }).ToList();
         }
 
@@ -50,6 +51,7 @@ namespace MyReading.API.DataAccess
             if (readingStreak != null)
             {
                 readingStreak.LengthInDays = lengthInDays;
+                readingStreak.LastStreak = DateTime.UtcNow; 
                 _context.SaveChanges();
             }
         }

@@ -216,12 +216,27 @@ export default {
     },
     async updateStreak(userId) {
       try {
-        //const today = new Date().toISOString().split('T')[0];
-        const response = await axios.put(`/api/v1/reading-streak/${userId}/length-in-days`);
-        this.streakDays = response.data.lengthInDays;
-        console.log("Streak atualizado com sucesso.");
+        //Buscando informações da streak do usuário
+        const streakResponse = await axios.get(`/api/v1/reading-streak/${userId}`);
+        const streakData = streakResponse.data;
+
+        //Verificar a última data atualizada
+        const lastStreakDate = new Date(streakData.lastStreak); 
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Zera as horas para comparar apenas as datas
+
+        //Se a última atualização não for hoje, incrementar a streak
+        if (lastStreakDate < today) {
+          const updateResponse = await axios.put(`/api/v1/reading-streak/${userId}/length-in-days`);
+          const updatedData = updateResponse.data;
+          this.streakDays = updatedData.lengthInDays;
+          console.log(`Streak atualizada! Total de dias: ${updatedData.lengthInDays}`)
+        } else {
+          console.log('Sua streak já está atualizada para hoje!');
+        }
       } catch (error) {
-        console.error("Erro ao atualizar a streak:", error);
+        console.error('Erro ao atualizar a streak:', error);
+        console.log('Não foi possível atualizar a streak. Tente novamente.');
       }
     },
     async acrescentarTempoNoLivro(userId, bookId, timeToAdd) {
