@@ -22,7 +22,7 @@ namespace MyReading.API.Domain.Model
         public int PagesRead { get; set; }
         */
         [Required]
-        public int TotalReadingTime { get; set; }
+        public TimeSpan TotalReadingTime { get; set; }
 
         // Propriedade de navegação para Book
         public Book Book { get; set; }
@@ -33,7 +33,7 @@ namespace MyReading.API.Domain.Model
             UserId = userId;
             BookId = bookId;
             /*PagesRead = pagesRead;*/
-            TotalReadingTime = 0;
+            TotalReadingTime = TimeSpan.Zero;
         }
 
         public ReadingProgress() { }

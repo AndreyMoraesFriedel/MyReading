@@ -61,8 +61,8 @@ namespace MyReading.API.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalReadingTime")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan>("TotalReadingTime")
+                        .HasColumnType("time(6)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -127,8 +127,8 @@ namespace MyReading.API.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("TotalReadingTime")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan>("TotalReadingTime")
+                        .HasColumnType("time(6)");
 
                     b.HasKey("Id");
 

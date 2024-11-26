@@ -200,11 +200,10 @@ export default {
       alert(`Timer finalizado. Tempo total: ${this.formattedTime}`);
 
       const userId = localStorage.getItem('userId');
-      const timeToAdd = Math.floor(this.seconds / 60); // Converte segundos para minutos
 
       if (this.livroSelecionado && userId) {
-        this.acrescentarTempoNoLivro(userId, this.livroSelecionado, timeToAdd);
-        this.acrescentarTempoTotal(userId, timeToAdd);
+        this.acrescentarTempoNoLivro(userId, this.livroSelecionado, this.formattedTime); 
+        this.acrescentarTempoTotal(userId, this.formattedTime); 
         this.updateStreak(userId);
       } else {
         console.error("Erro: Livro ou usuário não selecionado.");
@@ -241,24 +240,28 @@ export default {
     },
     async acrescentarTempoNoLivro(userId, bookId, timeToAdd) {
       try {
+        const formattedTime = this.formattedTime; 
+
         await axios.put(
           `/api/v1/reading-progress/${userId}/book/${bookId}/increment-time`,
-          null, // Sem corpo na requisição
-          { params: { timeToAdd } } // Parâmetro dinâmico
+          null, 
+          { params: { timeToAddInSeconds: formattedTime } } 
         );
         console.log(`Tempo (${timeToAdd} minutos) adicionado ao progresso do livro.`);
       } catch (error) {
         console.error("Erro ao atualizar tempo do livro:", error);
       }
     },
-    async acrescentarTempoTotal(userId, timeToAdd) {
+    async acrescentarTempoTotal(userId) {
       try {
+        const formattedTime = this.formattedTime; 
+        
         await axios.put(
           `/api/v1/user/${userId}/add-reading-time`,
-          null, // Sem corpo na requisição
-          { params: { timeToAdd } } // Parâmetro dinâmico
+          null, 
+          { params: { timeToAddInSeconds: formattedTime } } 
         );
-        console.log(`Tempo total (${timeToAdd} minutos) atualizado para o usuário.`);
+        console.log(`Tempo total de leitura atualizado com sucesso.`);
       } catch (error) {
         console.error("Erro ao atualizar tempo total do usuário:", error);
       }

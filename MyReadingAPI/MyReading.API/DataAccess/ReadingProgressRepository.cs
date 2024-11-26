@@ -40,7 +40,7 @@ namespace MyReading.API.DataAccess
             _context.SaveChanges();
         }
 
-        public void IncrementReadingTime(int userId, int bookId, int timeToAdd)
+        public void IncrementReadingTime(int userId, int bookId, TimeSpan timeToAdd)
         {
             var readingProgress = _context.ReadingProgresses
                 .FirstOrDefault(rp => rp.UserId == userId && rp.BookId == bookId);

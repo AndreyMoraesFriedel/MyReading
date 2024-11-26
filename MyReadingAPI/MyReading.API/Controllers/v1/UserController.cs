@@ -148,7 +148,7 @@ namespace MyReading.API.Controllers.v1
         }
 
         [HttpPut("{userId}/add-reading-time")]
-        public IActionResult AddReadingTime(int userId, [FromQuery] int timeToAdd)
+        public IActionResult AddReadingTime(int userId, [FromQuery] string timeToAddInSeconds)
         {
             var user = _userRepository.GetById(userId);
             if (user == null)
@@ -156,17 +156,17 @@ namespace MyReading.API.Controllers.v1
                 return NotFound("Usuário não encontrado.");
             }
 
-            user.TotalReadingTime += timeToAdd;
+            var timeToAdd = TimeSpan.Parse(timeToAddInSeconds);
+            user.TotalReadingTime = user.TotalReadingTime.Add(timeToAdd);
 
             _userRepository.Update(user);
 
             return Ok(new
             {
                 message = "Tempo total de leitura atualizado com sucesso.",
-                totalReadingTime = user.TotalReadingTime
+                totalReadingTime = user.TotalReadingTime.ToString(@"hh\:mm\:ss")
             });
         }
-
 
         //[Authorize]
         [HttpDelete("{id}")]

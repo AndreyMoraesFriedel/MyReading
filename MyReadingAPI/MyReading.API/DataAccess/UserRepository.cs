@@ -32,7 +32,7 @@ namespace MyReading.API.DataAccess
         {
             return _context.ReadingProgresses
                 .Where(rp => rp.UserId == userId)
-                .Select(rp => rp.Book) // Navega até o livro
+                .Select(rp => rp.Book) 
                 .ToList();
         }
 
@@ -59,13 +59,13 @@ namespace MyReading.API.DataAccess
             _context.SaveChanges();
         }
 
-        public void IncrementTotalReadingTime(int userId, int timeToAdd)
+        public void IncrementTotalReadingTime(int userId, TimeSpan timeToAdd)
         {
             var user = _context.Users.Find(userId);
 
             if (user != null)
             {
-                user.TotalReadingTime += timeToAdd;
+                user.TotalReadingTime = user.TotalReadingTime.Add(timeToAdd); 
                 _context.SaveChanges();
             }
             else
@@ -73,6 +73,7 @@ namespace MyReading.API.DataAccess
                 throw new Exception("Usuário não encontrado.");
             }
         }
+
 
         public void Delete(int id)
         {

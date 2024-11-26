@@ -77,10 +77,11 @@ namespace MyReading.API.Controllers.v1
         }
 
         [HttpPut("{userId}/book/{bookId}/increment-time")]
-        public IActionResult IncrementReadingTime(int userId, int bookId, [FromQuery] int timeToAdd)
+        public IActionResult IncrementReadingTime(int userId, int bookId, [FromQuery] string timeToAddInSeconds)
         {
             try
             {
+                var timeToAdd = TimeSpan.Parse(timeToAddInSeconds);
                 _readingProgressRepository.IncrementReadingTime(userId, bookId, timeToAdd);
                 return Ok(new { message = "Tempo de leitura incrementado com sucesso." });
             }

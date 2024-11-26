@@ -6,7 +6,7 @@
         public int UserId { get; set; }
         public int BookId { get; set; }
         /*public int PagesRead { get; set; }*/
-        public int TotalReadingTime { get; set; }
+        public TimeSpan TotalReadingTime { get; set; }
 
     }
 }
