@@ -10,6 +10,7 @@ namespace MyReading.API.Infrastructure.Repository
         void Add(ReadingProgress progress);
         List<ReadingProgressDTO> Get(int pageNumber, int pageQuantity);
         ReadingProgress? GetById(int id);
+        TimeSpan GetTotalReadingTimeByUserAndBook(int userId, int bookId);
         void Update(ReadingProgress progress);
         void IncrementReadingTime(int userId, int bookId, TimeSpan timeToAdd);
         void Delete(int id);

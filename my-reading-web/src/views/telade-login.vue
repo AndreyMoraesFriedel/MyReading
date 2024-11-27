@@ -65,6 +65,9 @@ export default {
       errorMessage: '', // Mensagem de erro
     };
   },
+  metaInfo: {
+    title: 'Login - MyReading',
+  },
   methods: {
     async logar() {
       try {

@@ -130,7 +130,7 @@
 import axios from '../http-common';
 
 export default {
-  name: 'Perfil',
+  name: 'Perfil - MyReading',
   data() {
     return {
       streakDays: 0,
@@ -143,14 +143,14 @@ export default {
     title: 'Perfil',
   },
   created() {
-    const userId = localStorage.getItem('userId'); // Obtém o userId do localStorage
+    const userId = localStorage.getItem('userId'); 
     if (userId) {
-      this.obterStreakDoUsuario(userId); // Busca streak do usuário
-      this.obterInformacoesDoUsuario(userId); // Busca informações do usuário     
+      this.obterStreakDoUsuario(userId); 
+      this.obterInformacoesDoUsuario(userId);      
       this.obterFotoDoUsuario(userId);
     } else {
       console.error('Usuário não autenticado!');
-      this.$router.push('/'); // Redireciona para o login se não encontrar o ID
+      this.$router.push('/'); 
     }
   },
   methods: {
@@ -410,6 +410,9 @@ export default {
   height: 280px;
   position: absolute;
   box-sizing: content-box;
+  border-radius: 50px;
+  border: 10px solid black;
+  box-shadow: 5px 10px 15px 0px rgba(0, 0, 0, 0.5);
 }
 .perfil-text10 {
   top: 949px;

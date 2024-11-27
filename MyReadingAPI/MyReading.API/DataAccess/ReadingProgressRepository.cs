@@ -33,6 +33,18 @@ namespace MyReading.API.DataAccess
         {
             return _context.ReadingProgresses.Find(id);
         }
+        public TimeSpan GetTotalReadingTimeByUserAndBook(int userId, int bookId)
+        {
+            var readingProgress = _context.ReadingProgresses
+                .FirstOrDefault(rp => rp.UserId == userId && rp.BookId == bookId);
+
+            if (readingProgress != null)
+            {
+                return readingProgress.TotalReadingTime;
+            }
+
+            return TimeSpan.Zero;
+        }
 
         public void Update(ReadingProgress readingProgress)
         {

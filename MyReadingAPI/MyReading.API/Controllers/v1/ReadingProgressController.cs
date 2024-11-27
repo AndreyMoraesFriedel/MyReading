@@ -59,6 +59,20 @@ namespace MyReading.API.Controllers.v1
             return Ok(progressDTO);
         }
 
+        [HttpGet("user/{userId}/book/{bookId}/total-reading-time")]
+        public IActionResult GetTotalReadingTimeByUserAndBook(int userId, int bookId)
+        {
+            try
+            {
+                var totalReadingTime = _readingProgressRepository.GetTotalReadingTimeByUserAndBook(userId, bookId);
+                return Ok(new { UserId = userId, BookId = bookId, TotalReadingTime = totalReadingTime });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
         //[Authorize]
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] ReadingProgressViewModel progressView)

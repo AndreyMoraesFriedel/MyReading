@@ -87,12 +87,20 @@
 
          <!-- Exibir as capas dos livros -->
           <div class="livros-container">
-            <div v-for="livro in livrosDoUsuario" :key="livro.id" class="livro">
+            <div
+              v-for="livro in livrosDoUsuario"
+              :key="livro.id"
+              class="livro"
+              @mouseover="mostrarProgresso(livro.id)"
+              @mouseleave="esconderProgresso(livro.id)"
+            >
               <img :src="livro.capaUrl" :alt="livro.title" class="livro-capa" />
-              <p class="livro-title">{{ livro.title }}</p>
+              <br>
+              <span class="livro-title">{{ livro.title }}</span>
+              <br>
+              <span v-if="livro.progresso" class="livro-progresso">Progresso: {{ livro.progresso }}</span>
             </div>
           </div>
-
         <!-- Formulário para Adicionar Livro -->
         <div v-if="exibirFormulario" class="biblioteca-form-popup">
           <h2>Cadastro de Livro</h2>
@@ -139,7 +147,7 @@ export default {
     };
   },
   metaInfo: {
-    title: 'Biblioteca',
+    title: 'Biblioteca - MyReading',
   },
   created() {
     const userId = localStorage.getItem('userId');
@@ -187,8 +195,29 @@ export default {
         return URL.createObjectURL(response.data);
       } catch (error) {
         console.error('Erro ao buscar a capa do livro:', error);
-        return null; // Retorna nulo em caso de erro
+        return null; 
       }
+    },
+    async obterProgressoDeLeitura(livroId) {
+      try {
+        const userId = localStorage.getItem('userId');
+        const response = await axios.get(`/api/v1/reading-progress/user/${userId}/book/${livroId}/total-reading-time`);
+        return response.data.totalReadingTime; 
+      } catch (error) {
+        console.error('Erro ao buscar progresso de leitura:', error);
+        return 'Erro ao buscar progresso';
+      }
+    },
+    async mostrarProgresso(livroId) {
+      const progresso = await this.obterProgressoDeLeitura(livroId);
+      this.livrosDoUsuario = this.livrosDoUsuario.map((livro) =>
+        livro.id === livroId ? { ...livro, progresso } : livro
+      );
+    },
+    esconderProgresso(livroId) {
+      this.livrosDoUsuario = this.livrosDoUsuario.map((livro) =>
+        livro.id === livroId ? { ...livro, progresso: null } : livro
+      );
     },
     irParaPerfil() {
       this.$router.push('/Perfil');
@@ -536,7 +565,7 @@ input[type="file"] {
 .livros-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 100px;
+  gap: 104px;
   margin-top: 20px;
   position: absolute;
   left: 330px;
@@ -551,7 +580,7 @@ input[type="file"] {
 .livro-capa {
   width: 200px;
   height: 247px;
-  object-fit: cover; /* Para cortar e ajustar a imagem */
+  object-fit: cover; 
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 50px;
@@ -560,8 +589,15 @@ input[type="file"] {
 
 .livro-title {
   margin-top: 8px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   color: #333;
+}
+.livro-progresso {
+  align-items: center;
+  font-size: 15px;
+  color: rgba(50, 50, 50, 0.8);
+  margin-top: 8px;
+  color: #000;
 }
 </style>

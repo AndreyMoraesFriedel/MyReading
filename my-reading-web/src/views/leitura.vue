@@ -100,7 +100,7 @@ export default {
   created() {
     const userId = localStorage.getItem('userId');
     this.gerarFraseMotivadora();
-    // Se um id do usuário está disponível, busca a streak do backend
+
     if (userId) {
       this.obterStreakDoUsuario(userId);
       this.carregarLivrosDoUsuario(userId);
@@ -504,7 +504,7 @@ export default {
 #timer {
   font-size: 5em;
   margin-bottom: 20px;
-  color: #333;
+  color: #ffffff;
   position: absolute;
   left: 40px;
   top: 28px;

@@ -60,7 +60,7 @@
 import axios from '../http-common';
 
 export default {
-  name: 'Cadastro',
+  name: 'Cadastro - MyReading',
   data() {
     return {
       usuario: {
@@ -73,7 +73,7 @@ export default {
     };
   },
   metaInfo: {
-    title: 'Cadastro',
+    title: 'Cadastro - MyReading',
   },
   methods: {
     async registrar() {
