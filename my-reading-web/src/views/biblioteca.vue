@@ -128,7 +128,7 @@ export default {
     return {
       exibirFormulario: false,
       mensagemConfirmacao: false,
-      livrosDoUsuario: [], // Lista de livros do usuário
+      livrosDoUsuario: [], 
       livro: {
         nome: '',
         autor: '',
@@ -145,7 +145,7 @@ export default {
     const userId = localStorage.getItem('userId');
     if (userId) {
       this.obterStreakDoUsuario(userId);
-      this.carregarLivrosDoUsuario(userId); // Carregar os livros ao abrir a página
+      this.carregarLivrosDoUsuario(userId); 
     }
   },
   methods: {
@@ -467,25 +467,6 @@ export default {
   font-stretch: normal;
   text-decoration: none;
 }
-/*
-#biblioteca-submitBtn,
-#biblioteca-closeFormBtn {
-    padding: 15px 25px;
-    margin: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease;
-}
-*/
-button:hover {
-    transform: scale(1.05);
-}
-
 .biblioteca-form-popup {
     display: flex;
     align-items: center;

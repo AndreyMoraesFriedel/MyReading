@@ -111,13 +111,14 @@
           </div>
           <!--Editar Perfil-->
           <!--<div><img src="/external/pencil2688-onr-200w.png" alt="Pencil2688" class="perfil-pencil"/><span class="perfil-text12">EDITAR PERFIL</span></div> -->
-          <div> <!--SAIR-->
+          <!--SAIR-->
+          <div style="cursor: pointer;"  @click="sair"> 
             <img
               src="/external/emergencyexit2688-9g5e-200w.png"
               alt="EmergencyExit2688"
               class="perfil-emergency-exit"
             />
-            <span class="perfil-text10" @click="sair">SAIR</span>
+            <span class="perfil-text10">SAIR</span>
           </div>
         </div>
       </main>

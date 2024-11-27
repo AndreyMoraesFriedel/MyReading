@@ -94,6 +94,9 @@ export default {
       streakDays: 0, 
     };
   },
+  metaInfo: {
+    title: 'Leitura',
+  },
   created() {
     const userId = localStorage.getItem('userId');
     this.gerarFraseMotivadora();
@@ -155,16 +158,16 @@ export default {
     },
     gerarFraseMotivadora() {
       const frases = [
-        `"A leitura é para a mente o que o exercício é para o corpo." — Joseph Addison`,
-        `"Um livro é um sonho que você segura em suas mãos." — Neil Gaiman`,
-        `"Ler é viajar sem sair do lugar."`,
-        `"A leitura engrandece a alma." — Voltaire`,
-        `"Um leitor vive mil vidas antes de morrer." — George R.R. Martin`,
-        `"A leitura de um bom livro é um diálogo incessante: o livro fala e a alma responde." — André Maurois`,
-        `"Cada livro é um mundo à espera de ser descoberto."`,
-        `"Livros são amigos silenciosos e fiéis." — Confúcio`,
-        `"A leitura nos dá um lugar para ir quando temos que ficar onde estamos." — Mason Cooley`,
-        `"O livro é um mestre que fala, mas não responde." — Platão`,
+      `"A leitura é para a mente o que o exercício é para o corpo." — Joseph Addison`,
+      `"Um livro é um sonho que você segura em suas mãos." — Neil Gaiman`,
+      `"Ler é viajar sem sair do lugar." — Cecília Meireles`,
+      `"A leitura engrandece a alma." — Voltaire`,
+      `"Um leitor vive mil vidas antes de morrer." — George R.R. Martin`,
+      `"A leitura de um bom livro é um diálogo incessante: o livro fala e a alma responde." — André Maurois`,
+      `"Cada livro é um mundo à espera de ser descoberto." — Alberto Manguel`,
+      `"Livros são amigos silenciosos e fiéis." — Confúcio`,
+      `"A leitura nos dá um lugar para ir quando temos que ficar onde estamos." — Mason Cooley`,
+      `"O livro é um mestre que fala, mas não responde." — Platão`,
       ];
       this.fraseMotivacional = frases[Math.floor(Math.random() * frases.length)];
     },
