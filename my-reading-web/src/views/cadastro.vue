@@ -60,7 +60,7 @@
 import axios from '../http-common';
 
 export default {
-  name: 'Cadastro - MyReading',
+  name: 'Cadastro',
   data() {
     return {
       usuario: {
@@ -146,11 +146,14 @@ export default {
 }
 .cadastro-rectangle7 {
   top: 32px;
-  left: 445px;
-  width: 1091px;
-  height: 1006px;
+  left: 490px;
+  width: 1000px;
+  height: 1000px;
   position: absolute;
   border-radius: 40px;
+  border-radius: 50px;
+  border: 10px solid black;
+  box-shadow: 10px 10px 15px 0px rgba(0, 0, 0, 0.5);
 }
 .cadastro-retangulo-do-nome {
   top: 160px;

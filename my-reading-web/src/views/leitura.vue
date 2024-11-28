@@ -95,7 +95,7 @@ export default {
     };
   },
   metaInfo: {
-    title: 'Leitura',
+    title: 'Leitura - MyReading',
   },
   created() {
     const userId = localStorage.getItem('userId');
@@ -436,11 +436,16 @@ export default {
 /****************************************** */
 .leitura1-rectangle6 {
   top: 178px;
-  left: 639px;
-  width: 643px;
-  height: 574px;
+  left: 707px;
+  width: 515px;
+  height: 555px;
   position: absolute;
   border-radius: 40px;
+  border-radius: 65px;
+  border: 20px solid black;
+  -webkit-box-shadow: 5px 10px 15px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 15px 10px 15px 0px rgba(0, 0, 0, 0.5);
+  background-color: black;
 }
 .leitura1-text19 {
   top: 800px;

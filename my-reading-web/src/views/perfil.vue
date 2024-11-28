@@ -91,7 +91,7 @@
               alt="Customer2687"
               class="perfil-customer"
             />
-            <span class="perfil-text11">NOME DO USUÁRIO: {{ nomedousuario }}</span>
+            <span class="perfil-text11">USUÁRIO: {{ nomedousuario }}</span>
           </div>
           <div> <!--TEMPO TOTAL DE LEITURA-->
             <img
@@ -130,7 +130,7 @@
 import axios from '../http-common';
 
 export default {
-  name: 'Perfil - MyReading',
+  name: 'Perfil',
   data() {
     return {
       streakDays: 0,
@@ -140,7 +140,7 @@ export default {
     };
   },
   metaInfo: {
-    title: 'Perfil',
+    title: 'Perfil - MyReading',
   },
   created() {
     const userId = localStorage.getItem('userId'); 
